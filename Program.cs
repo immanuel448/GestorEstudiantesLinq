@@ -25,10 +25,14 @@ namespace GestorEstudiantesLinq
                 new Estudiante { Id = 4, Nombre = "Pedro", Edad = 21, Carrera = "Ingeniería" },
             };
 
-            // 1. Filtrar estudiantes de Ingeniería
+            // 1. Filtrar estudiantes de Ingeniería, sintaxis métodos
             var ingenieria = estudiantes.Where(e => e.Carrera == "Ingeniería");
+            // sintaxis tipo sql
+            //var ingenieria2 = from e in estudiantes
+            //                  where e.Carrera == "Ingenieria"
+            //                  select e;
 
-            Console.WriteLine("Estudiantes de Ingeniería:");
+            Console.WriteLine("1. Estudiantes de Ingeniería:");
             foreach (var e in ingenieria)
             {
                 Console.WriteLine($"- {e.Nombre}, {e.Edad} años");
@@ -37,7 +41,7 @@ namespace GestorEstudiantesLinq
             // 2. Ordenar por edad descendente
             var ordenados = estudiantes.OrderByDescending(e => e.Edad);
 
-            Console.WriteLine("\nEstudiantes ordenados por edad:");
+            Console.WriteLine("\n2. Estudiantes ordenados por edad:");
             foreach (var e in ordenados)
             {
                 Console.WriteLine($"- {e.Nombre}, {e.Edad} años");
@@ -46,11 +50,26 @@ namespace GestorEstudiantesLinq
             // 3. Proyección: solo nombres
             var nombres = estudiantes.Select(e => e.Nombre);
 
-            Console.WriteLine("\nNombres de todos los estudiantes:");
+            Console.WriteLine("\n3. Nombres de todos los estudiantes:");
             foreach (var nombre in nombres)
             {
                 Console.WriteLine($"- {nombre}");
             }
+
+            // 4. Contar estudiantes por carrera
+            var conteoPorCarrera = estudiantes
+                .GroupBy(e => e.Carrera)
+                .Select(grupo => new
+                {
+                    Carrera = grupo.Key,
+                    Cantidad = grupo.Count()
+                });
+
+            Console.WriteLine("\n4. Cantidad de estudiantes por carrera:");
+            foreach (var item in conteoPorCarrera)
+            {
+                Console.WriteLine($"- {item.Carrera}: {item.Cantidad} estudiante(s)");
+
+            }
         }
-    }
 }
