@@ -75,8 +75,21 @@ namespace GestorEstudiantesLinq
             Console.WriteLine("\n5. Estudiantes mayores de 20 años.");
             Console.WriteLine(resultado);
 
+            // 6. Obtener el estudiante más joven, OrderBy - First()
+            var masJoven = estudiantes
+                .OrderBy(e => e.Edad)
+                .First();
+            Console.WriteLine("\n6. El estudiante más joven es:");
+            Console.WriteLine($"{masJoven.Nombre} con {masJoven.Edad} años.");
+
+            // 7: Average – Calcular la edad promedio
+            var promedio = estudiantes.Average(e => e.Edad);
+            Console.WriteLine("\n7. La edad promedio es de:");
+            Console.WriteLine($"{promedio} años");
+
 
             Console.ReadKey();
         }
     }
 }
+ 
