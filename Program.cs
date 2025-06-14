@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Threading.Channels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GestorEstudiantesLinq
 {
@@ -83,9 +85,56 @@ namespace GestorEstudiantesLinq
             Console.WriteLine($"{masJoven.Nombre} con {masJoven.Edad} años.");
 
             // 7: Average – Calcular la edad promedio
-            var promedio = estudiantes.Average(e => e.Edad);
-            Console.WriteLine("\n7. La edad promedio es de:");
-            Console.WriteLine($"{promedio} años");
+            if (estudiantes.Any())
+                //se realiza una verificaciòn para que la colección no esté vacía
+            {
+                var promedio = estudiantes.Average(e => e.Edad);
+                Console.WriteLine("\n7. La edad promedio es de:");
+                Console.WriteLine($"{promedio} años");
+            }
+            else
+            {
+                Console.WriteLine("No hay estudiantes para realizar el cálculo");
+            }
+
+            //8: Select con objetos anónimos
+            var sintesis = estudiantes.Select(e => new
+            {
+                //se accede con el nombre personalizado "enombre"
+                enombre = e.Nombre,
+                //se accede mediante "la propiedad Carrera"
+                e.Carrera
+            });
+            Console.WriteLine("\n8. Seleccion con objetos anónimos:");
+            apoyo = 1;
+            foreach (var item in sintesis)
+            {
+                Console.WriteLine($"{apoyo++}.- {item.enombre}, con la carrera de {item.Carrera}");
+            }
+
+            /*
+                RESUMEN, hasta ahora
+                Ahora queremos crear una nueva proyección con esta información:
+                Nombre
+                Edad
+                ¿Es mayor de edad? (Edad >= 18
+                Carrera en mayúsculas
+            */
+
+            Console.WriteLine("\nRESUMEN:");
+            var resultados = estudiantes.Select(e => new
+            {
+                e.Nombre,
+                e.Carrera,
+                mayorEdad = e.Edad >= 18,
+                carreraMayuscula = e.Carrera.ToUpper()
+            });
+
+            foreach (var item in resultados)
+            {
+                Console.WriteLine($"Nombre {item.Nombre}, carrera {item.Carrera}, es mayor de edad? {item.mayorEdad}, {item.carreraMayuscula}");
+
+            }
 
 
             Console.ReadKey();
