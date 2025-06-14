@@ -24,13 +24,16 @@ namespace GestorEstudiantesLinq
         {
             objGestor = new GestorEstudiantes();
             // Lista de estudiantes (fuente de datos en memoria)
-            List<Estudiante> estudiantes = new List<Estudiante>
-            {
-                new Estudiante { Id = 1, Nombre = "Ana", Edad = 20, Carrera = "Ingeniería" },
-                new Estudiante { Id = 2, Nombre = "Luis", Edad = 22, Carrera = "Derecho" },
-                new Estudiante { Id = 3, Nombre = "María", Edad = 19, Carrera = "Medicina" },
-                new Estudiante { Id = 4, Nombre = "Pedro", Edad = 21, Carrera = "Ingeniería" },
-            };
+            //List<Estudiante> estudiantes = new List<Estudiante>
+            //{
+            //    new Estudiante { Id = 1, Nombre = "Ana", Edad = 20, Carrera = "Ingeniería" },
+            //    new Estudiante { Id = 2, Nombre = "Luis", Edad = 22, Carrera = "Derecho" },
+            //    new Estudiante { Id = 3, Nombre = "María", Edad = 19, Carrera = "Medicina" },
+            //    new Estudiante { Id = 4, Nombre = "Pedro", Edad = 21, Carrera = "Ingeniería" },
+            //};
+
+            //para crear la lista ahora se haré uso de un método que ingresa datos desde consola y los valida
+            List<Estudiante> estudiantes = objGestor.LeerEstudiantesDesdeConsola();
 
             objGestor.Where_Linq(estudiantes);
             objGestor.OrderByDescending_Linq(estudiantes);

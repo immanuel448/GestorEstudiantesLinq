@@ -10,6 +10,75 @@ namespace GestorEstudiantesLinq
     internal class GestorEstudiantes
     {
 
+        public List<Estudiante> LeerEstudiantesDesdeConsola()
+        {
+            List<Estudiante> estudiantes = new List<Estudiante>();
+            int id = 1;
+
+            while (true)
+            {
+                Console.WriteLine($"\nEstudiante #{id}");
+
+                //los ciclos en general, o permiten salir hasta que se entregue lo deseado
+                // Nombre
+                string nombre;
+                do
+                {
+                    Console.Write("Ingrese el nombre: ");
+                    nombre = Console.ReadLine().Trim();
+                    if (string.IsNullOrWhiteSpace(nombre))
+                        Console.WriteLine("❌ El nombre no puede estar vacío.");
+                    //se repite mientras este vacío o solo con espacios
+                } while (string.IsNullOrWhiteSpace(nombre));
+
+                // Edad
+                int edad;
+                while (true)
+                {
+                    Console.Write("Ingrese la edad: ");
+                    string input = Console.ReadLine();
+                    if (int.TryParse(input, out edad) && edad > 0)
+                        break;
+                    Console.WriteLine("❌ Edad inválida. Ingrese un número mayor a 0.");
+                }
+
+                // Carrera
+                string carrera;
+                do
+                {
+                    Console.Write("Ingrese la carrera: ");
+                    carrera = Console.ReadLine().Trim();
+                    if (string.IsNullOrWhiteSpace(carrera))
+                        Console.WriteLine("❌ La carrera no puede estar vacía.");
+                } while (string.IsNullOrWhiteSpace(carrera));
+
+                // Crear objeto y agregar a la lista
+                estudiantes.Add(new Estudiante
+                {
+                    Id = id++,
+                    Nombre = nombre,
+                    Edad = edad,
+                    Carrera = carrera
+                });
+
+                // ¿Desea continuar?
+                string respuesta = "";
+                while(respuesta != "s" && respuesta != "n")
+                {
+                    //si es "s" vuelve a repetir todo
+                    //si es "n" sale de este método
+                    //si es diferente "s", "n", se repite este ciclo
+                    Console.Write("¿Desea agregar otro estudiante? (s/n): ");
+                    respuesta = Console.ReadLine().Trim().ToLower();
+                }
+                if (respuesta == "n")
+                    //termina este método
+                    break;
+            }
+            return estudiantes;
+        }
+
+
         public void Where_Linq(List<Estudiante> estudiantes)
         {
             // 1. Filtrar estudiantes de Ingeniería, sintaxis métodos, Where
@@ -138,7 +207,7 @@ namespace GestorEstudiantesLinq
 
             foreach (var item in resultados)
             {
-                Console.WriteLine($"Nombre {item.Nombre}, carrera {item.Carrera}, es mayor de edad? {item.mayorEdad}, {item.carreraMayuscula}");
+                Console.WriteLine($"Nombre {item.Nombre}, carrera {item.Carrera}, es mayor de edad: {item.mayorEdad}, {item.carreraMayuscula}");
 
             }
         }
