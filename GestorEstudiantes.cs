@@ -35,14 +35,15 @@ namespace GestorEstudiantesLinq
 
                 try
                 {
-                    //se asegura que el archivo exista
+                    //se asegura que el archivo exista, IMPORTANTE
                     if (!File.Exists(ruta))
                     {
                         Console.WriteLine("⚠️ El archivo aún no existe.");
                         //se regresa una lista vacía
                         return new List<Estudiante>();
                     }
-                    //se obtienen datos de un archivo
+
+                    //se obtienen datos deL archivo
                     string json = File.ReadAllText(ruta);
                     //se parsea el Json a una lista de objetos de la clase Estudiante
                     var estudiantes = JsonSerializer.Deserialize<List<Estudiante>>(json);
@@ -52,11 +53,11 @@ namespace GestorEstudiantesLinq
                 }
                 catch (Exception ex)
                 {
+                    //con errores
                     Console.WriteLine($"❌ Error al cargar: {ex.Message}");
                     return new List<Estudiante>();
                 }
             }
-
 
         public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
         {
@@ -67,7 +68,7 @@ namespace GestorEstudiantesLinq
             {
                 Console.WriteLine($"\nEstudiante #{id}");
 
-                //los ciclos en general, o permiten salir hasta que se entregue lo deseado
+                //los ciclos en general no permiten salir, mientras no se entregue lo deseado
                 // Nombre
                 string nombre;
                 do
@@ -100,7 +101,7 @@ namespace GestorEstudiantesLinq
                         Console.WriteLine("❌ La carrera no puede estar vacía.");
                 } while (string.IsNullOrWhiteSpace(carrera));
 
-                // Crear objeto y agregar a la lista
+                // se agrega a la lista
                 estudiantes.Add(new Estudiante
                 {
                     Id = id++,
@@ -116,7 +117,7 @@ namespace GestorEstudiantesLinq
                     //si es "s" vuelve a repetir todo
                     //si es "n" sale de este método
                     //si es diferente "s", "n", se repite este ciclo
-                    Console.Write("¿Desea agregar otro estudiante? (s/n): ");
+                    Console.Write("\n¿Desea agregar otro estudiante? (s/n): ");
                     respuesta = Console.ReadLine().Trim().ToLower();
                 }
                 if (respuesta == "n")

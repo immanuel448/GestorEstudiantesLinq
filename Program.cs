@@ -90,8 +90,10 @@ namespace GestorEstudiantesLinq
                         estudiantes = objGestor.CargarEstudiantesDesdeJson();
                         break;
                     case "12":
+                        //se continúa con el id subsecuente
                         int ultimoId = estudiantes.Any() ? estudiantes.Max(e => e.Id) : 0;
                         var nuevosEstudiantes = objGestor.LeerEstudiantesDesdeConsola(ultimoId);
+                        //se añaden los estudiantes ingresados desde consola a los anteriores
                         estudiantes.AddRange(nuevosEstudiantes);
                         break;
                     case "0":
@@ -103,7 +105,7 @@ namespace GestorEstudiantesLinq
                         break;
                 }
                 //en este punto va a volver a ciclar
-                Console.WriteLine("\nPresione una tecla para continuar...");
+                Console.WriteLine("\nPresione una tecla para volver al Menú");
                 Console.ReadKey();
             }
         }
