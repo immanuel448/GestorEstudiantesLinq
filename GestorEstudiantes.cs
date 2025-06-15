@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using GestorEstudiantesLinq;
 
@@ -10,10 +11,57 @@ namespace GestorEstudiantesLinq
     internal class GestorEstudiantes
     {
 
-        public List<Estudiante> LeerEstudiantesDesdeConsola()
+            public void GuardarEstudiantesEnJson(List<Estudiante> estudiantes)
+            {
+                string ruta = "estudiantes.json";
+
+                try
+                {
+                //se convierte a JSON; el segundo parámetro sirve para que el JSON se genere con formato legible (sangría)
+                string json = JsonSerializer.Serialize(estudiantes, new JsonSerializerOptions { WriteIndented = true });
+                    //escribir o crear y escribir en un archivo
+                    File.WriteAllText(ruta, json);
+                    Console.WriteLine($"✅ Estudiantes guardados correctamente en '{ruta}'");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"❌ Error al guardar: {ex.Message}");
+                }
+            }
+
+            public List<Estudiante> CargarEstudiantesDesdeJson()
+            {
+                string ruta = "estudiantes.json";
+
+                try
+                {
+                    //se asegura que el archivo exista
+                    if (!File.Exists(ruta))
+                    {
+                        Console.WriteLine("⚠️ El archivo aún no existe.");
+                        //se regresa una lista vacía
+                        return new List<Estudiante>();
+                    }
+                    //se obtienen datos de un archivo
+                    string json = File.ReadAllText(ruta);
+                    //se parsea el Json a una lista de objetos de la clase Estudiante
+                    var estudiantes = JsonSerializer.Deserialize<List<Estudiante>>(json);
+                    Console.WriteLine($"✅ Estudiantes cargados correctamente desde '{ruta}'");
+                    //el operador ?? verifica si 'estudiantes' es null; si lo es, devuelve una nueva lista vacía
+                return estudiantes ?? new List<Estudiante>();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"❌ Error al cargar: {ex.Message}");
+                    return new List<Estudiante>();
+                }
+            }
+
+
+        public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
         {
             List<Estudiante> estudiantes = new List<Estudiante>();
-            int id = 1;
+            int id = ultimoId + 1;
 
             while (true)
             {

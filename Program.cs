@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Threading.Channels;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GestorEstudiantesLinq
 {
@@ -48,6 +44,9 @@ namespace GestorEstudiantesLinq
                 Console.WriteLine("7. Edad promedio");
                 Console.WriteLine("8. Proyección con objetos anónimos");
                 Console.WriteLine("9. Resumen transformado");
+                Console.WriteLine("10. Guardar en un archivo JSON");
+                Console.WriteLine("11. Cargar desde un archivo JSON");
+                Console.WriteLine("12. Ingresar los estudientes desde consola");
                 Console.WriteLine("0. Salir");
                 Console.Write("Seleccione una opción: ");
                 
@@ -83,6 +82,17 @@ namespace GestorEstudiantesLinq
                         break;
                     case "9":
                         objGestor.Resumen_Linq(estudiantes);
+                        break;
+                    case "10":
+                        objGestor.GuardarEstudiantesEnJson(estudiantes);
+                        break;
+                    case "11":
+                        estudiantes = objGestor.CargarEstudiantesDesdeJson();
+                        break;
+                    case "12":
+                        int ultimoId = estudiantes.Any() ? estudiantes.Max(e => e.Id) : 0;
+                        var nuevosEstudiantes = objGestor.LeerEstudiantesDesdeConsola(ultimoId);
+                        estudiantes.AddRange(nuevosEstudiantes);
                         break;
                     case "0":
                         Console.WriteLine("👋 Saliendo...");
