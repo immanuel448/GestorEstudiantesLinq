@@ -21,7 +21,7 @@ namespace GestorEstudiantesLinq
 
             objGestor = new GestorEstudiantes();
 
-            // Lista de estudiantes (fuente de datos en memoria), ta,mbien se podrían seguir ingresando datos por consola, mediante el método LeerEstudiantesDesdeConsola, que regresa una lista
+            // Lista de estudiantes (fuente de datos en memoria), también se podrían seguir ingresando datos por consola, mediante el método LeerEstudiantesDesdeConsola, que regresa una lista
             List<Estudiante> estudiantes = new List<Estudiante>
             {
                 new Estudiante { Id = 1, Nombre = "Ana", Edad = 20, Carrera = "Ingeniería" },
@@ -49,7 +49,6 @@ namespace GestorEstudiantesLinq
                 Console.WriteLine("12. Ingresar los estudientes desde consola");
                 Console.WriteLine("0. Salir");
                 Console.Write("Seleccione una opción: ");
-                
                 //se obtiene la respuesta
                 string opcion = Console.ReadLine();
 

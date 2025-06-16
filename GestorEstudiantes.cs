@@ -62,6 +62,7 @@ namespace GestorEstudiantesLinq
         public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
         {
             List<Estudiante> estudiantes = new List<Estudiante>();
+            //se parte desde el último id existente
             int id = ultimoId + 1;
 
             while (true)
@@ -71,6 +72,7 @@ namespace GestorEstudiantesLinq
                 //los ciclos en general no permiten salir, mientras no se entregue lo deseado
                 // Nombre
                 string nombre;
+                //sólo pide que no esté vacío
                 do
                 {
                     Console.Write("Ingrese el nombre: ");
@@ -82,6 +84,7 @@ namespace GestorEstudiantesLinq
 
                 // Edad
                 int edad;
+                //debe ser un número mayo a cero
                 while (true)
                 {
                     Console.Write("Ingrese la edad: ");
@@ -93,6 +96,7 @@ namespace GestorEstudiantesLinq
 
                 // Carrera
                 string carrera;
+                //sólo pide que no esté vacío
                 do
                 {
                     Console.Write("Ingrese la carrera: ");
@@ -101,7 +105,7 @@ namespace GestorEstudiantesLinq
                         Console.WriteLine("❌ La carrera no puede estar vacía.");
                 } while (string.IsNullOrWhiteSpace(carrera));
 
-                // se agrega a la lista
+                // se agrega a la lista -----------------------------
                 estudiantes.Add(new Estudiante
                 {
                     Id = id++,
@@ -110,7 +114,7 @@ namespace GestorEstudiantesLinq
                     Carrera = carrera
                 });
 
-                // ¿Desea continuar?
+                // ¿Desea continuar? -----------------------------
                 string respuesta = "";
                 while(respuesta != "s" && respuesta != "n")
                 {
@@ -145,7 +149,7 @@ namespace GestorEstudiantesLinq
             // 2. Ordenar por edad descendente
             var ordenados = estudiantes.OrderByDescending(e => e.Edad);
 
-            Console.WriteLine("\n2. Estudiantes ordenados por edad:");
+            Console.WriteLine("\n2. Estudiantes ordenados por edad (descendiente):");
             foreach (var e in ordenados)
             {
                 Console.WriteLine($"-{e.Nombre}, carrera: {e.Carrera}, {e.Edad} años");
@@ -204,7 +208,7 @@ namespace GestorEstudiantesLinq
         {
             // 7: Average – Calcular la edad promedio
             if (estudiantes.Any())
-            //se realiza una verificaciòn para que la colección no esté vacía
+            //se realiza una verificación para que la colección no esté vacía
             {
                 var promedio = estudiantes.Average(e => e.Edad);
                 Console.WriteLine("\n7. La edad promedio es de:");
