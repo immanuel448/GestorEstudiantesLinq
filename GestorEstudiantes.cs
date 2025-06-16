@@ -5,13 +5,14 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using GestorEstudiantesLinq;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestorEstudiantesLinq
 {
+
     internal class GestorEstudiantes
     {
-
-            public void GuardarEstudiantesEnJson(List<Estudiante> estudiantes)
+        public void GuardarEstudiantesEnJson(List<Estudiante> estudiantes)
             {
                 string ruta = "estudiantes.json";
 

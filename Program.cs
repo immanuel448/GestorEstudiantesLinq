@@ -1,10 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestorEstudiantesLinq
 {
-    class Estudiante
+    public class AppDbContext : DbContext
+    {
+        /*
+        *se instalan estos paquetes para hacer uso de entity y de sqlite
+        *dotnet add package Microsoft.EntityFrameworkCore
+        *dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+        *dotnet add package Microsoft.EntityFrameworkCore.Tools
+        */
+
+        public DbSet<Estudiante> Estudiantes { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=estudiantes.db");
+        }
+    }
+
+    public class Estudiante
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
