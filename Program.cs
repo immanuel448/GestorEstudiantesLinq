@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
+
 namespace GestorEstudiantesLinq
 {
-    class Estudiante
+    public class Estudiante
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
@@ -12,11 +15,61 @@ namespace GestorEstudiantesLinq
         public string Carrera { get; set; }
     }
 
+    public class AppDbContext : DbContext
+    {
+        public DbSet<Estudiante> Estudiantes { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=estudiantes.db");
+        }
+    }
+
     class Program
     {
         private static GestorEstudiantes objGestor;
 
         static void Main(string[] args)
+        {
+            using var db = new AppDbContext();
+
+            // Crear BD y tabla si no existen
+            db.Database.EnsureCreated();
+
+            // Verificar si ya hay datos para no duplicar inserciones
+            if (!db.Estudiantes.Any())
+            {
+                // Insertar algunos estudiantes
+                var estudiantes = new List<Estudiante>
+        {
+            new Estudiante { Nombre = "Ana", Edad = 20, Carrera = "Ingeniería" },
+            new Estudiante { Nombre = "Luis", Edad = 22, Carrera = "Derecho" },
+            new Estudiante { Nombre = "María", Edad = 19, Carrera = "Medicina" },
+            new Estudiante { Nombre =  "Pedro", Edad = 21, Carrera = "Ingeniería" },
+        };
+                db.Estudiantes.AddRange(estudiantes);
+                db.SaveChanges();
+                Console.WriteLine("Estudiantes guardados en la base de datos.");
+            }
+            else
+            {
+                Console.WriteLine("Ya existen estudiantes en la base de datos.");
+            }
+
+            // Leer y mostrar los estudiantes
+            var lista = db.Estudiantes.ToList();
+            Console.WriteLine("Lista de estudiantes desde BD:");
+            foreach (var e in lista)
+            {
+                Console.WriteLine($"Id: {e.Id}, Nombre: {e.Nombre}, Edad: {e.Edad}, Carrera: {e.Carrera}");
+            }
+
+            Console.WriteLine("Presione una tecla para salir...");
+            Console.ReadKey();
+        }
+
+
+        static void Main2(string[] args)
         {
 
             objGestor = new GestorEstudiantes();

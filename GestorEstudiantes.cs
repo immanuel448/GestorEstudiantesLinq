@@ -11,7 +11,22 @@ namespace GestorEstudiantesLinq
     internal class GestorEstudiantes
     {
 
-            public void GuardarEstudiantesEnJson(List<Estudiante> estudiantes)
+        public void GuardarEstudiantesEnBD(List<Estudiante> estudiantes)
+        {
+            using var db = new AppDbContext();
+            db.Database.EnsureCreated(); // crea la BD si no existe
+            db.Estudiantes.AddRange(estudiantes);
+            db.SaveChanges();
+        }
+
+        public List<Estudiante> CargarEstudiantesDesdeBD()
+        {
+            using var db = new AppDbContext();
+            return db.Estudiantes.ToList();
+        }
+
+
+        public void GuardarEstudiantesEnJson(List<Estudiante> estudiantes)
             {
                 string ruta = "estudiantes.json";
 
