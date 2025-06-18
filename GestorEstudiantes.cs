@@ -12,25 +12,51 @@ namespace GestorEstudiantesLinq
 
     internal class GestorEstudiantes
     {
-        public void GuardarEstudiantesEnJson(List<Estudiante> estudiantes)
+        public void InsertarEstudiantesEnBD()
+        {
+            using (var db = new AppDbContext())
             {
-                string ruta = "estudiantes.json";
+                // Verifica si ya hay datos
+                if (db.Estudiantes.Any())
+                {
+                    Console.WriteLine("⚠️ Ya existen estudiantes en la base de datos. No se insertarán duplicados.");
+                    return;
+                }
 
-                try
-                {
-                //se convierte a JSON; el segundo parámetro sirve para que el JSON se genere con formato legible (sangría)
-                string json = JsonSerializer.Serialize(estudiantes, new JsonSerializerOptions { WriteIndented = true });
-                    //escribir o crear y escribir en un archivo
-                    File.WriteAllText(ruta, json);
-                    Console.WriteLine($"✅ Estudiantes guardados correctamente en '{ruta}'");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"❌ Error al guardar: {ex.Message}");
-                }
+                var estudiantes = new List<Estudiante>
+        {
+            new Estudiante { Nombre = "Ana", Edad = 20, Carrera = "Ingeniería" },
+            new Estudiante { Nombre = "Luis", Edad = 22, Carrera = "Derecho" },
+            new Estudiante { Nombre = "María", Edad = 19, Carrera = "Medicina" },
+            new Estudiante { Nombre = "Pedro", Edad = 21, Carrera = "Ingeniería" },
+        };
+
+                db.Estudiantes.AddRange(estudiantes);
+                db.SaveChanges();
+                Console.WriteLine("✅ Estudiantes de prueba insertados correctamente en la base de datos.");
             }
+        }
 
-            public List<Estudiante> CargarEstudiantesDesdeJson()
+        public void GuardarEstudiantesEnJson()
+        {
+            string ruta = "estudiantes.json";
+
+            try
+            {
+                using var db = new AppDbContext();
+                var estudiantes = db.Estudiantes.ToList();
+
+                string json = JsonSerializer.Serialize(estudiantes, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(ruta, json);
+                Console.WriteLine($"✅ Estudiantes guardados correctamente en '{ruta}'");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error al guardar: {ex.Message}");
+            }
+        }
+
+        public List<Estudiante> CargarEstudiantesDesdeJson()
             {
                 string ruta = "estudiantes.json";
 
@@ -132,114 +158,154 @@ namespace GestorEstudiantesLinq
             return estudiantes;
         }
 
-
-        public void Where_Linq(List<Estudiante> estudiantes)
+        public void Where_Linq()
         {
-            // 1. Filtrar estudiantes de Ingeniería, sintaxis métodos, Where
-            var ingenieria = estudiantes.Where(e => e.Carrera == "Ingeniería");
-            Console.WriteLine("\n1. Estudiantes de ingeniería:");
-            int apoyo = 1;
-            foreach (var unaFila in ingenieria)
+            //ya se toman los datos directamente desde la bd
+            using (var db = new AppDbContext())
             {
-                Console.WriteLine($"{apoyo++}.- {unaFila.Nombre}");
-            }
-        }
+                var ingenieria = db.Estudiantes
+                                   .Where(e => e.Carrera == "Ingeniería")
+                                   .ToList();
 
-        public void OrderByDescending_Linq(List<Estudiante> estudiantes)
-        {
-            // 2. Ordenar por edad descendente
-            var ordenados = estudiantes.OrderByDescending(e => e.Edad);
-
-            Console.WriteLine("\n2. Estudiantes ordenados por edad (descendiente):");
-            foreach (var e in ordenados)
-            {
-                Console.WriteLine($"-{e.Nombre}, carrera: {e.Carrera}, {e.Edad} años");
-            }
-        }
-
-        public void Select_Linq(List<Estudiante> estudiantes)
-        {
-            // 3. Proyección: solo nombres. Select
-            var nombres = estudiantes.Select(e => e.Nombre);
-
-            Console.WriteLine("\n3. Nombres de todos los estudiantes:");
-            foreach (var nombre in nombres)
-            {
-                Console.WriteLine($"-{nombre}");
-            }
-        }
-
-        public void GroupBy_Linq(List<Estudiante> estudiantes)
-        {
-            // 4. Contar estudiantes por carrera, GroupBy - Select
-            var conteoPorCarrera = estudiantes
-                .GroupBy(e => e.Carrera)
-                .Select(grupo => new
+                Console.WriteLine("\n1. Estudiantes de ingeniería:");
+                int apoyo = 1;
+                foreach (var unaFila in ingenieria)
                 {
-                    carrera = grupo.Key,
-                    cantidad = grupo.Count()
-                });
-            Console.WriteLine("\n4. Cantidad de estudiantes por Carrera:");
-            foreach (var e in conteoPorCarrera)
-            {
-                Console.WriteLine($"La carrera de {e.carrera} tiene {e.cantidad} estudiante(s).");
+                    Console.WriteLine($"{apoyo++}.- {unaFila.Nombre}");
+                }
             }
         }
 
-        public void Any_Linq(List<Estudiante> estudiantes)
+        public void OrderByDescending_Linq()
         {
-            // 5. Algún estudiante mayor a 20 años, Any
-            string resultado = estudiantes.Any(e => e.Edad > 20) ? "Sí existe mínimo un estudiante mayor de 20 años" : "No hay ningún estudiante mayor de 20 años";
-
-            Console.WriteLine("\n5. Estudiantes mayores de 20 años.");
-            Console.WriteLine(resultado);
-        }
-
-        public void First_Linq(List<Estudiante> estudiantes)
-        {
-            // 6. Obtener el estudiante más joven, OrderBy - First()
-            var masJoven = estudiantes
-                .OrderBy(e => e.Edad)
-                .First();
-            Console.WriteLine("\n6. El estudiante más joven es:");
-            Console.WriteLine($"{masJoven.Nombre} con {masJoven.Edad} años.");
-        }
-
-        public void Average_Linq(List<Estudiante> estudiantes)
-        {
-            // 7: Average – Calcular la edad promedio
-            if (estudiantes.Any())
-            //se realiza una verificación para que la colección no esté vacía
+            //ya se toman los datos directamente desde la bd
+            using (var db = new AppDbContext())
             {
-                var promedio = estudiantes.Average(e => e.Edad);
-                Console.WriteLine("\n7. La edad promedio es de:");
-                Console.WriteLine($"{promedio} años");
-            }
-            else
-            {
-                Console.WriteLine("No hay estudiantes para realizar el cálculo");
+                // 2. Ordenar por edad descendente
+                var ordenados = db.Estudiantes.OrderByDescending(e => e.Edad).ToList();
+
+                Console.WriteLine("\n2. Estudiantes ordenados por edad (descendiente):");
+                foreach (var e in ordenados)
+                {
+                    Console.WriteLine($"-{e.Nombre}, carrera: {e.Carrera}, {e.Edad} años");
+                }
             }
         }
 
-        public void SelectAnonimos_Linq(List<Estudiante> estudiantes)
+        public void Select_Linq()
         {
-            //8: Select con objetos anónimos
-            var sintesis = estudiantes.Select(e => new
+            //ya se toman los datos directamente desde la bd
+            using (var db = new AppDbContext())
             {
-                //se accede con el nombre personalizado "enombre"
-                enombre = e.Nombre,
-                //se accede mediante "la propiedad Carrera"
-                e.Carrera
-            });
-            Console.WriteLine("\n8. Seleccion con objetos anónimos:");
-            int apoyo = 1;
-            foreach (var item in sintesis)
-            {
-                Console.WriteLine($"{apoyo++}.- {item.enombre}, con la carrera de {item.Carrera}");
+                // 3. Proyección: solo nombres Select
+                var nombres = db.Estudiantes.Select(e => e.Nombre).ToList();
+
+                Console.WriteLine("\n3. Nombres de todos los estudiantes:");
+                foreach (var nombre in nombres)
+                {
+                    Console.WriteLine($"-{nombre}");
+                }  
             }
         }
 
-        public void Resumen_Linq(List<Estudiante> estudiantes)
+        public void GroupBy_Linq()
+        {
+            //ya se toman los datos directamente desde la bd
+            using (var db = new AppDbContext())
+            {
+                // 4. Contar estudiantes por carrera, GroupBy - Select
+                var conteoPorCarrera = db.Estudiantes
+                    .GroupBy(e => e.Carrera)
+                    .Select(grupo => new
+                    {
+                        carrera = grupo.Key,
+                        cantidad = grupo.Count()
+                    }).ToList();
+                Console.WriteLine("\n4. Cantidad de estudiantes por Carrera:");
+                foreach (var e in conteoPorCarrera)
+                {
+                    Console.WriteLine($"La carrera de {e.carrera} tiene {e.cantidad} estudiante(s).");
+                }
+            }
+        }
+
+        public void Any_Linq()
+        {
+            //ya se toman los datos directamente desde la bd
+            using (var db = new AppDbContext())
+            {
+                // 5. Algún estudiante mayor a 20 años, Any
+                string resultado = db.Estudiantes.Any(e => e.Edad > 20) ? "Sí existe mínimo un estudiante mayor de 20 años" : "No hay ningún estudiante mayor de 20 años";
+
+                Console.WriteLine("\n5. Estudiantes mayores de 20 años.");
+                Console.WriteLine(resultado);
+            }
+        }
+
+        public void First_Linq()
+        {
+            using (var db = new AppDbContext())
+            {
+                var masJoven = db.Estudiantes
+                    .OrderBy(e => e.Edad)
+                    .FirstOrDefault();
+
+                if (masJoven != null)
+                {
+                    Console.WriteLine("\n6. El estudiante más joven es:");
+                    Console.WriteLine($"{masJoven.Nombre} con {masJoven.Edad} años.");
+                }
+                else
+                {
+                    Console.WriteLine("No hay estudiantes registrados.");
+                }
+            }
+        }
+
+
+        public void Average_Linq()
+        {
+            //ya se toman los datos directamente desde la bd
+            using (var db = new AppDbContext())
+            {
+                // 7: Average – Calcular la edad promedio
+                if (db.Estudiantes.Any())
+                //se realiza una verificación para que la colección no esté vacía
+                {
+                    var promedio = db.Estudiantes.Average(e => e.Edad);
+                    Console.WriteLine("\n7. La edad promedio es de:");
+                    Console.WriteLine($"{promedio} años");
+                }
+                else
+                {
+                    Console.WriteLine("No hay estudiantes para realizar el cálculo");
+                }
+            }
+        }
+
+        public void SelectAnonimos_Linq()
+        {
+            //ya se toman los datos directamente desde la bd
+            using (var db = new AppDbContext())
+            {
+                //8: Select con objetos anónimos
+                var sintesis = db.Estudiantes.Select(e => new
+                {
+                    //se accede con el nombre personalizado "enombre"
+                    enombre = e.Nombre,
+                    //se accede mediante "la propiedad Carrera"
+                    e.Carrera
+                }).ToList();
+                Console.WriteLine("\n8. Seleccion con objetos anónimos:");
+                int apoyo = 1;
+                foreach (var item in sintesis)
+                {
+                    Console.WriteLine($"{apoyo++}.- {item.enombre}, con la carrera de {item.Carrera}");
+                }
+            }
+        }
+
+        public void Resumen_Linq()
         {
             /*
                 RESUMEN, hasta ahora
@@ -250,19 +316,23 @@ namespace GestorEstudiantesLinq
                 Carrera en mayúsculas
             */
 
-            Console.WriteLine("\nRESUMEN:");
-            var resultados = estudiantes.Select(e => new
+            //ya se toman los datos directamente desde la bd
+            using (var db = new AppDbContext())
             {
-                e.Nombre,
-                e.Carrera,
-                mayorEdad = e.Edad >= 18,
-                carreraMayuscula = e.Carrera.ToUpper()
-            });
+                Console.WriteLine("\nRESUMEN:");
+                var resultados = db.Estudiantes.Select(e => new
+                {
+                    e.Nombre,
+                    e.Carrera,
+                    mayorEdad = e.Edad >= 18,
+                    carreraMayuscula = e.Carrera.ToUpper()
+                }).ToList();
 
-            foreach (var item in resultados)
-            {
-                Console.WriteLine($"Nombre {item.Nombre}, carrera {item.Carrera}, es mayor de edad: {item.mayorEdad}, {item.carreraMayuscula}");
+                foreach (var item in resultados)
+                {
+                    Console.WriteLine($"Nombre {item.Nombre}, carrera {item.Carrera}, es mayor de edad: {item.mayorEdad}, {item.carreraMayuscula}");
 
+                }
             }
         }
     }
