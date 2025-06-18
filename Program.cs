@@ -7,6 +7,10 @@ using System.Linq;
 
 namespace GestorEstudiantesLinq
 {
+    //dotnet nuget list source
+    //dotnet nuget remove source packagesource1
+
+
     public class Estudiante
     {
         public int Id { get; set; }
