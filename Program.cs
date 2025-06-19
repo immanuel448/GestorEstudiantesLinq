@@ -34,57 +34,13 @@ namespace GestorEstudiantesLinq
 
         static void Main(string[] args)
         {
-            using var db = new AppDbContext();
-
-            // Crear BD y tabla si no existen
-            db.Database.EnsureCreated();
-
-            // Verificar si ya hay datos para no duplicar inserciones
-            if (!db.Estudiantes.Any())
-            {
-                // Insertar algunos estudiantes
-                var estudiantes = new List<Estudiante>
-        {
-            new Estudiante { Nombre = "Ana", Edad = 20, Carrera = "Ingeniería" },
-            new Estudiante { Nombre = "Luis", Edad = 22, Carrera = "Derecho" },
-            new Estudiante { Nombre = "María", Edad = 19, Carrera = "Medicina" },
-            new Estudiante { Nombre =  "Pedro", Edad = 21, Carrera = "Ingeniería" },
-        };
-                db.Estudiantes.AddRange(estudiantes);
-                db.SaveChanges();
-                Console.WriteLine("Estudiantes guardados en la base de datos.");
-            }
-            else
-            {
-                Console.WriteLine("Ya existen estudiantes en la base de datos.");
-            }
-
-            // Leer y mostrar los estudiantes
-            var lista = db.Estudiantes.ToList();
-            Console.WriteLine("Lista de estudiantes desde BD:");
-            foreach (var e in lista)
-            {
-                Console.WriteLine($"Id: {e.Id}, Nombre: {e.Nombre}, Edad: {e.Edad}, Carrera: {e.Carrera}");
-            }
-
-            Console.WriteLine("Presione una tecla para salir...");
-            Console.ReadKey();
-        }
-
-
-        static void Main2(string[] args)
-        {
 
             objGestor = new GestorEstudiantes();
 
             // Lista de estudiantes (fuente de datos en memoria), ta,mbien se podrían seguir ingresando datos por consola, mediante el método LeerEstudiantesDesdeConsola, que regresa una lista
-            List<Estudiante> estudiantes = new List<Estudiante>
-            {
-                new Estudiante { Id = 1, Nombre = "Ana", Edad = 20, Carrera = "Ingeniería" },
-                new Estudiante { Id = 2, Nombre = "Luis", Edad = 22, Carrera = "Derecho" },
-                new Estudiante { Id = 3, Nombre = "María", Edad = 19, Carrera = "Medicina" },
-                new Estudiante { Id = 4, Nombre = "Pedro", Edad = 21, Carrera = "Ingeniería" },
-            };
+            using var db = new AppDbContext();
+            List<Estudiante> estudiantes = db.Estudiantes.ToList();
+
 
             while (true)
             {
@@ -151,6 +107,8 @@ namespace GestorEstudiantesLinq
                         var nuevosEstudiantes = objGestor.LeerEstudiantesDesdeConsola(ultimoId);
                         //se añaden los estudiantes ingresados desde consola a los anteriores
                         estudiantes.AddRange(nuevosEstudiantes);
+                        objGestor.GuardarEstudiantesEnBD(nuevosEstudiantes);
+
                         break;
                     case "0":
                         Console.WriteLine("👋 Saliendo...");
