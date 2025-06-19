@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 
 
@@ -22,22 +21,26 @@ namespace GestorEstudiantesLinq
     public class AppDbContext : DbContext
     {
         /*
-        *se instalan estos paquetes para hacer uso de entity y de sqlite
-        *dotnet add package Microsoft.EntityFrameworkCore
-        *dotnet add package Microsoft.EntityFrameworkCore.Sqlite
-        *dotnet add package Microsoft.EntityFrameworkCore.Tools
-        */
+         * Requiere los siguientes paquetes para funcionar con Entity Framework Core y SQLite:
+         * dotnet add package Microsoft.EntityFrameworkCore
+         * dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+         * dotnet add package Microsoft.EntityFrameworkCore.Tools
+         */
 
+        // Representa la tabla Estudiantes en la base de datos
         public DbSet<Estudiante> Estudiantes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Configura la conexión a la base de datos SQLite.
+            // Si el archivo 'estudiantes.db' no existe, se creará automáticamente.
             optionsBuilder.UseSqlite("Data Source=estudiantes.db");
         }
     }
 
     class Program
     {
+        //para usar los métodos de esta clase
         private static GestorEstudiantes objGestor;
 
         static void Main(string[] args)
@@ -45,7 +48,7 @@ namespace GestorEstudiantesLinq
 
             objGestor = new GestorEstudiantes();
 
-            // Lista de estudiantes (fuente de datos en memoria), ta,mbien se podrían seguir ingresando datos por consola, mediante el método LeerEstudiantesDesdeConsola, que regresa una lista
+            // ya se toman los datos desde la BD
             using var db = new AppDbContext();
             List<Estudiante> estudiantes = db.Estudiantes.ToList();
 
@@ -64,9 +67,8 @@ namespace GestorEstudiantesLinq
                 Console.WriteLine("7. Edad promedio");
                 Console.WriteLine("8. Proyección con objetos anónimos");
                 Console.WriteLine("9. Resumen transformado");
-                Console.WriteLine("10. Guardar en un archivo JSON");
-                Console.WriteLine("11. Cargar desde un archivo JSON");
-                Console.WriteLine("12. Ingresar los estudientes desde consola");
+                Console.WriteLine("10. Exportar a un archivo JSON");
+                Console.WriteLine("11. Ingresar estudientes desde consola");
                 Console.WriteLine("0. Salir");
                 Console.Write("Seleccione una opción: ");
                 //se obtiene la respuesta
@@ -103,19 +105,16 @@ namespace GestorEstudiantesLinq
                         objGestor.Resumen_Linq(estudiantes);
                         break;
                     case "10":
-                        objGestor.GuardarEstudiantesEnJson(estudiantes);
+                        objGestor.ExportarEstudiantesAJson(estudiantes);
                         break;
                     case "11":
-                        estudiantes = objGestor.CargarEstudiantesDesdeJson();
-                        break;
-                    case "12":
+                        //se ingresan estudiantes desde la consola
                         //se continúa con el id subsecuente
                         int ultimoId = estudiantes.Any() ? estudiantes.Max(e => e.Id) : 0;
                         var nuevosEstudiantes = objGestor.LeerEstudiantesDesdeConsola(ultimoId);
                         //se añaden los estudiantes ingresados desde consola a los anteriores
-                        estudiantes.AddRange(nuevosEstudiantes);
+                        estudiantes.AddRange(nuevosEstudiantes);//no sobreescribe sino que los añade
                         objGestor.GuardarEstudiantesEnBD(nuevosEstudiantes);
-
                         break;
                     case "0":
                         Console.WriteLine("👋 Saliendo...");
