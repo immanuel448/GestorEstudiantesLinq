@@ -68,7 +68,7 @@ namespace GestorEstudiantesLinq
                 Console.WriteLine("8. Proyección con objetos anónimos");
                 Console.WriteLine("9. Resumen transformado");
                 Console.WriteLine("10. Exportar a un archivo JSON");
-                Console.WriteLine("11. Ingresar estudientes desde consola");
+                Console.WriteLine("11. Ingresar estudiantes desde consola");
                 Console.WriteLine("0. Salir");
                 Console.Write("Seleccione una opción: ");
                 //se obtiene la respuesta

@@ -150,12 +150,22 @@ namespace GestorEstudiantesLinq
         public void Where_Linq(List<Estudiante> estudiantes)
         {
             // 1. Filtrar estudiantes de Ingeniería, sintaxis métodos, Where
-            var ingenieria = estudiantes.Where(e => e.Carrera == "Ingeniería");
-            Console.WriteLine("\n1. Estudiantes de ingeniería:");
-            int apoyo = 1;
-            foreach (var unaFila in ingenieria)
+            Console.Write("🔍 Ingrese la carrera a filtrar: ");
+            string carrera = Console.ReadLine()?.Trim();
+
+            var resultado = estudiantes
+                .Where(e => e.Carrera.Equals(carrera, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            if (resultado.Any())
             {
-                Console.WriteLine($"{apoyo++}.- {unaFila.Nombre}");
+                Console.WriteLine($"\n🎓 Estudiantes de la carrera '{carrera}':");
+                foreach (var e in resultado)
+                    Console.WriteLine($"- {e.Nombre} ({e.Edad} años)");
+            }
+            else
+            {
+                Console.WriteLine($"❌ No se encontraron estudiantes de la carrera '{carrera}'");
             }
         }
 
@@ -203,10 +213,19 @@ namespace GestorEstudiantesLinq
         public void Any_Linq(List<Estudiante> estudiantes)
         {
             // 5. Algún estudiante mayor a 20 años, Any
-            string resultado = estudiantes.Any(e => e.Edad > 20) ? "Sí existe mínimo un estudiante mayor de 20 años" : "No hay ningún estudiante mayor de 20 años";
-
-            Console.WriteLine("\n5. Estudiantes mayores de 20 años.");
-            Console.WriteLine(resultado);
+            Console.Write("🔍 Ingrese la edad mínima para buscar: ");
+            if (int.TryParse(Console.ReadLine(), out int edadMinima))
+            {
+                bool hay = estudiantes.Any(e => e.Edad > edadMinima);
+                string mensaje = hay
+                    ? $"✅ Sí existe al menos un estudiante mayor de {edadMinima} años."
+                    : $"❌ No hay estudiantes mayores de {edadMinima} años.";
+                Console.WriteLine(mensaje);
+            }
+            else
+            {
+                Console.WriteLine("❌ Edad inválida.");
+            }
         }
 
         public void First_Linq(List<Estudiante> estudiantes)
