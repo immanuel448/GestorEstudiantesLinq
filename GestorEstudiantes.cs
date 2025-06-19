@@ -28,7 +28,7 @@ namespace GestorEstudiantesLinq
         //antes: GuardarEstudiantesEnJson
         public void ExportarEstudiantesAJson(List<Estudiante> estudiantes)
         {
-            string ruta = "estudiantes.json";
+            string ruta = "guardarEstudiantes.json";
 
             try
             {
