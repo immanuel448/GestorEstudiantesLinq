@@ -8,8 +8,7 @@ using System.Linq;
 namespace GestorEstudiantesLinq
 {
     //dotnet nuget list source
-    //dotnet nuget remove source packagesource1
-
+    //dotnet nuget remove source packagesource1q
 
     public class Estudiante
     {
