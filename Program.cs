@@ -1,10 +1,24 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
+
+
 namespace GestorEstudiantesLinq
 {
+    //dotnet nuget list source
+    //dotnet nuget remove source packagesource1q
+
+    public class Estudiante
+    {
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public int Edad { get; set; }
+        public string Carrera { get; set; }
+    }
+
     public class AppDbContext : DbContext
     {
         /*
@@ -22,14 +36,6 @@ namespace GestorEstudiantesLinq
         }
     }
 
-    public class Estudiante
-    {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public int Edad { get; set; }
-        public string Carrera { get; set; }
-    }
-
     class Program
     {
         private static GestorEstudiantes objGestor;
@@ -39,14 +45,10 @@ namespace GestorEstudiantesLinq
 
             objGestor = new GestorEstudiantes();
 
-            // Lista de estudiantes (fuente de datos en memoria), también se podrían seguir ingresando datos por consola, mediante el método LeerEstudiantesDesdeConsola, que regresa una lista
-            List<Estudiante> estudiantes = new List<Estudiante>
-            {
-                new Estudiante { Id = 1, Nombre = "Ana", Edad = 20, Carrera = "Ingeniería" },
-                new Estudiante { Id = 2, Nombre = "Luis", Edad = 22, Carrera = "Derecho" },
-                new Estudiante { Id = 3, Nombre = "María", Edad = 19, Carrera = "Medicina" },
-                new Estudiante { Id = 4, Nombre = "Pedro", Edad = 21, Carrera = "Ingeniería" },
-            };
+            // Lista de estudiantes (fuente de datos en memoria), ta,mbien se podrían seguir ingresando datos por consola, mediante el método LeerEstudiantesDesdeConsola, que regresa una lista
+            using var db = new AppDbContext();
+            List<Estudiante> estudiantes = db.Estudiantes.ToList();
+
 
             while (true)
             {
@@ -112,6 +114,8 @@ namespace GestorEstudiantesLinq
                         var nuevosEstudiantes = objGestor.LeerEstudiantesDesdeConsola(ultimoId);
                         //se añaden los estudiantes ingresados desde consola a los anteriores
                         estudiantes.AddRange(nuevosEstudiantes);
+                        objGestor.GuardarEstudiantesEnBD(nuevosEstudiantes);
+
                         break;
                     case "0":
                         Console.WriteLine("👋 Saliendo...");
