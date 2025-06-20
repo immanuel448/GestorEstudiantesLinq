@@ -43,7 +43,7 @@ namespace GestorEstudiantesLinq
                 Console.WriteLine($"❌ Error al guardar: {ex.Message}");
             }
         }
-
+        
         //ya no se usa
         public List<Estudiante> CargarEstudiantesDesdeJson()
         {
@@ -130,7 +130,7 @@ namespace GestorEstudiantesLinq
                     Carrera = carrera
                 });
 
-                // ¿Desea continuar? -----------------------------
+                // ¿Desea continuar? (ingresar más estudiantes)-----------------------------
                 string respuesta = "";
                 while (respuesta != "s" && respuesta != "n")
                 {
@@ -146,10 +146,10 @@ namespace GestorEstudiantesLinq
             }
             return estudiantes;
         }
-
+            
         public void Where_Linq(List<Estudiante> estudiantes)
         {
-            // 1. Filtrar estudiantes de Ingeniería, sintaxis métodos, Where
+            // 1. Filtrar estudiantes por carrera, Where
             Console.Write("🔍 Ingrese la carrera a filtrar: ");
             string carrera = Console.ReadLine()?.Trim();
 
@@ -169,12 +169,33 @@ namespace GestorEstudiantesLinq
             }
         }
 
-        public void OrderByDescending_Linq(List<Estudiante> estudiantes)
+        public void Order_Linq(List<Estudiante> estudiantes)
         {
-            // 2. Ordenar por edad descendente
-            var ordenados = estudiantes.OrderByDescending(e => e.Edad);
+            // 2. Ordenar por edad
+            var resultado = "";
 
-            Console.WriteLine("\n2. Estudiantes ordenados por edad (descendiente):");
+            do
+            {
+                Console.WriteLine("SELECCIONE PARA ORDENAR EN BASE A LA EDAD:");
+                Console.WriteLine("(1) Para Descendente");
+                Console.WriteLine("(2) Para Ascendente");
+                resultado = Console.ReadLine();
+
+            } while (resultado != "1" && resultado != "2");
+
+            IEnumerable<Estudiante> ordenados; // Tipo explícito aquí
+
+            if (resultado == "1")
+            {
+                ordenados = estudiantes.OrderByDescending(e => e.Edad);
+                Console.WriteLine("\n2. Estudiantes ordenados por edad (descendente):");
+            }else
+            {
+                //(2) ascendente
+                ordenados = estudiantes.OrderBy(e => e.Edad);
+                Console.WriteLine("\n2. Estudiantes ordenados por edad (ascendente):");
+            }
+
             foreach (var e in ordenados)
             {
                 Console.WriteLine($"-{e.Nombre}, carrera: {e.Carrera}, {e.Edad} años");
@@ -210,7 +231,7 @@ namespace GestorEstudiantesLinq
             }
         }
 
-        public void Any_Linq(List<Estudiante> estudiantes)
+        public void Any_Linq(List<Estudiante> estudiantes)//eeeeeee
         {
             // 5. Algún estudiante mayor a 20 años, Any
             Console.Write("🔍 Ingrese la edad mínima para buscar: ");

@@ -45,7 +45,6 @@ namespace GestorEstudiantesLinq
 
         static void Main(string[] args)
         {
-
             objGestor = new GestorEstudiantes();
 
             // ya se toman los datos desde la BD
@@ -57,18 +56,18 @@ namespace GestorEstudiantesLinq
             {
                 //esto es el menú
                 Console.Clear();
-                Console.WriteLine("📋 MENÚ PRINCIPAL - LINQ");
-                Console.WriteLine("1. Estudiantes de ingeniería");
-                Console.WriteLine("2. Ordenar por edad descendente");
-                Console.WriteLine("3. Mostrar solo nombres");
-                Console.WriteLine("4. Cantidad por carrera");
-                Console.WriteLine("5. ¿Hay alguien mayor de 20?");
-                Console.WriteLine("6. Mostrar el más joven");
+                Console.WriteLine("📋 MENÚ PRINCIPAL - CONSULTAS LINQ");
+                Console.WriteLine("1. Filtrar por carrera");
+                Console.WriteLine("2. Ordenar por edad (descendente)");
+                Console.WriteLine("3. Mostrar nombres de estudiantes");
+                Console.WriteLine("4. Cantidad de estudiantes por carrera");
+                Console.WriteLine("5. ¿Hay algún estudiante mayor de cierta edad?");
+                Console.WriteLine("6. Estudiante más joven");
                 Console.WriteLine("7. Edad promedio");
-                Console.WriteLine("8. Proyección con objetos anónimos");
-                Console.WriteLine("9. Resumen transformado");
-                Console.WriteLine("10. Exportar a un archivo JSON");
-                Console.WriteLine("11. Ingresar estudiantes desde consola");
+                Console.WriteLine("8. Proyección resumida (nombre, carrera)");
+                Console.WriteLine("9. Resumen personalizado");
+                Console.WriteLine("10. Exportar estudiantes a JSON");
+                Console.WriteLine("11. Agregar estudiantes desde consola");
                 Console.WriteLine("0. Salir");
                 Console.Write("Seleccione una opción: ");
                 //se obtiene la respuesta
@@ -81,7 +80,7 @@ namespace GestorEstudiantesLinq
                         objGestor.Where_Linq(estudiantes);
                         break;
                     case "2":
-                        objGestor.OrderByDescending_Linq(estudiantes);
+                        objGestor.Order_Linq(estudiantes);
                         break;
                     case "3":
                         objGestor.Select_Linq(estudiantes);
