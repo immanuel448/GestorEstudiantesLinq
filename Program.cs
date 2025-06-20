@@ -58,7 +58,7 @@ namespace GestorEstudiantesLinq
                 Console.Clear();
                 Console.WriteLine("📋 MENÚ PRINCIPAL - CONSULTAS LINQ");
                 Console.WriteLine("1. Filtrar por carrera");
-                Console.WriteLine("2. Ordenar por edad (descendente)");
+                Console.WriteLine("2. Ordenar por edad");
                 Console.WriteLine("3. Mostrar nombres de estudiantes");
                 Console.WriteLine("4. Cantidad de estudiantes por carrera");
                 Console.WriteLine("5. ¿Hay algún estudiante mayor de cierta edad?");

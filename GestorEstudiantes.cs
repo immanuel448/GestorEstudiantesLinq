@@ -19,6 +19,7 @@ namespace GestorEstudiantesLinq
             db.SaveChanges();
         }
 
+        //no se usa
         public List<Estudiante> CargarEstudiantesDesdeBD()
         {
             using var db = new AppDbContext();
