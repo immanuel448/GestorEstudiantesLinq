@@ -77,38 +77,47 @@ namespace GestorEstudiantesLinq
                 switch (opcion)
                 {
                     case "1":
-                        objGestor.Where_Linq(estudiantes);
+                        if(objGestor.HayEstudiantes(estudiantes))
+                            objGestor.Where_Linq(estudiantes);
                         break;
                     case "2":
-                        objGestor.Order_Linq(estudiantes);
+                        if (objGestor.HayEstudiantes(estudiantes))
+                            objGestor.Order_Linq(estudiantes);
                         break;
                     case "3":
-                        objGestor.Select_Linq(estudiantes);
+                        if (objGestor.HayEstudiantes(estudiantes))
+                            objGestor.Select_Linq(estudiantes);
                         break;
                     case "4":
-                        objGestor.GroupBy_Linq(estudiantes);
+                        if (objGestor.HayEstudiantes(estudiantes))
+                            objGestor.GroupBy_Linq(estudiantes);
                         break;
                     case "5":
-                        objGestor.Any_Linq(estudiantes);
+                        if (objGestor.HayEstudiantes(estudiantes))
+                            objGestor.Any_Linq(estudiantes);
                         break;
                     case "6":
-                        objGestor.First_Linq(estudiantes);
+                        if (objGestor.HayEstudiantes(estudiantes))
+                            objGestor.First_Linq(estudiantes);
                         break;
                     case "7":
-                        objGestor.Average_Linq(estudiantes);
+                        if (objGestor.HayEstudiantes(estudiantes))
+                            objGestor.Average_Linq(estudiantes);
                         break;
                     case "8":
-                        objGestor.SelectAnonimos_Linq(estudiantes);
+                        if (objGestor.HayEstudiantes(estudiantes))
+                            objGestor.SelectAnonimos_Linq(estudiantes);
                         break;
                     case "9":
-                        objGestor.Resumen_Linq(estudiantes);
+                        if (objGestor.HayEstudiantes(estudiantes))
+                            objGestor.Resumen_Linq(estudiantes);
                         break;
                     case "10":
-                        objGestor.ExportarEstudiantesAJson(estudiantes);
+                        if (objGestor.HayEstudiantes(estudiantes))
+                            objGestor.ExportarEstudiantesAJson(estudiantes);
                         break;
                     case "11":
-                        //se ingresan estudiantes desde la consola
-                        //se continúa con el id subsecuente
+                        //se ingresan estudiantes desde la consola, se continúa con el id subsecuente
                         int ultimoId = estudiantes.Any() ? estudiantes.Max(e => e.Id) : 0;
                         var nuevosEstudiantes = objGestor.LeerEstudiantesDesdeConsola(ultimoId);
                         //se añaden los estudiantes ingresados desde consola a los anteriores

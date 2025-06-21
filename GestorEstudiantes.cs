@@ -45,7 +45,7 @@ namespace GestorEstudiantesLinq
             }
         }
         
-        //ya no se usa
+        //ya no se usa7
         public List<Estudiante> CargarEstudiantesDesdeJson()
         {
             string ruta = "estudiantes.json";
@@ -57,7 +57,7 @@ namespace GestorEstudiantesLinq
                 {
                     Console.WriteLine("⚠️ El archivo aún no existe.");
                     //se regresa una lista vacía
-                    return new List<Estudiante>();
+                    return new List<Estudiante>();  
                 }
 
                 //se obtienen datos deL archivo
@@ -147,7 +147,17 @@ namespace GestorEstudiantesLinq
             }
             return estudiantes;
         }
-            
+
+        public bool HayEstudiantes(List<Estudiante> lista)
+        {
+            if (!lista.Any())//lista vacía
+            {
+                Console.WriteLine("⚠️ No hay estudiantes cargados. Ingrese datos primero (opción 11).");
+                return false;
+            }
+            return true;
+        }
+
         public void Where_Linq(List<Estudiante> estudiantes)
         {
             // 1. Filtrar estudiantes por carrera, Where
@@ -177,7 +187,7 @@ namespace GestorEstudiantesLinq
 
             do
             {
-                Console.WriteLine("SELECCIONE PARA ORDENAR EN BASE A LA EDAD:");
+                Console.WriteLine("\nSELECCIONE PARA ORDENAR EN BASE A LA EDAD:");
                 Console.WriteLine("(1) Para Descendente");
                 Console.WriteLine("(2) Para Ascendente");
                 resultado = Console.ReadLine();
@@ -215,6 +225,7 @@ namespace GestorEstudiantesLinq
             }
         }
 
+        //eeeeeeeeeeee
         public void GroupBy_Linq(List<Estudiante> estudiantes)
         {
             // 4. Contar estudiantes por carrera, GroupBy - Select
@@ -235,7 +246,7 @@ namespace GestorEstudiantesLinq
         public void Any_Linq(List<Estudiante> estudiantes)//eeeeeee
         {
             // 5. Algún estudiante mayor a 20 años, Any
-            Console.Write("🔍 Ingrese la edad mínima para buscar: ");
+            Console.Write("\n🔍Ingrese la edad mínima a buscar: ");
             if (int.TryParse(Console.ReadLine(), out int edadMinima))
             {
                 bool hay = estudiantes.Any(e => e.Edad > edadMinima);
@@ -263,17 +274,9 @@ namespace GestorEstudiantesLinq
         public void Average_Linq(List<Estudiante> estudiantes)
         {
             // 7: Average – Calcular la edad promedio
-            if (estudiantes.Any())
-            //se realiza una verificación para que la colección no esté vacía
-            {
-                var promedio = estudiantes.Average(e => e.Edad);
-                Console.WriteLine("\n7. La edad promedio es de:");
-                Console.WriteLine($"{promedio} años");
-            }
-            else
-            {
-                Console.WriteLine("No hay estudiantes para realizar el cálculo");
-            }
+            var promedio = estudiantes.Average(e => e.Edad);
+            Console.WriteLine("\n7. La edad promedio es de:");
+            Console.WriteLine($"{promedio} años");
         }
 
         public void SelectAnonimos_Linq(List<Estudiante> estudiantes)
@@ -286,7 +289,7 @@ namespace GestorEstudiantesLinq
                 //se accede mediante "la propiedad Carrera"
                 e.Carrera
             });
-            Console.WriteLine("\n8. Seleccion con objetos anónimos:");
+            Console.WriteLine("\n8. Seleccion con objetos anónimos (nombre, carrera):");
             int apoyo = 1;
             foreach (var item in sintesis)
             {
