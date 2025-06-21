@@ -45,6 +45,11 @@ namespace GestorEstudiantesLinq
 
         static void Main(string[] args)
         {
+            MostrarMenu();
+        }
+
+        private static void MostrarMenu()
+        {
             objGestor = new GestorEstudiantes();
 
             // ya se toman los datos desde la BD
@@ -77,7 +82,7 @@ namespace GestorEstudiantesLinq
                 switch (opcion)
                 {
                     case "1":
-                        if(objGestor.HayEstudiantes(estudiantes))
+                        if (objGestor.HayEstudiantes(estudiantes))
                             objGestor.Where_Linq(estudiantes);
                         break;
                     case "2":
