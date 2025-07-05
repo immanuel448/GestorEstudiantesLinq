@@ -60,7 +60,7 @@ namespace GestorEstudiantesLinq
 
             while (true)
             {
-                //esto es el menú
+                //esto es el menú, si no se selecciona nada el switch va a repetir el menú
                 Console.Clear();
                 Console.WriteLine("📋 MENÚ PRINCIPAL - CONSULTAS LINQ");
                 Console.WriteLine("1. Filtrar por carrera");
@@ -136,6 +136,7 @@ namespace GestorEstudiantesLinq
                         return;
                     default:
                         Console.WriteLine("❌ Opción no válida. Intente de nuevo.");
+                        //repite el menú
                         break;
                 }
                 //en este punto va a volver a ciclar
