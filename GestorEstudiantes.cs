@@ -225,28 +225,23 @@ namespace GestorEstudiantesLinq
             }
         }
 
-        //eeeeeeeeeeee
         public void GroupBy_Linq(List<Estudiante> estudiantes)
         {
-            // 4. Contar estudiantes por carrera, GroupBy - Select
+            // 4. Agrupar estudientes por carrera y saber su cantidad, GroupBy
             var conteoPorCarrera = estudiantes
-                .GroupBy(e => e.Carrera)
-                .Select(grupo => new
-                {
-                    carrera = grupo.Key,
-                    cantidad = grupo.Count()
-                });
+                .GroupBy(e => e.Carrera);
             Console.WriteLine("\n4. Cantidad de estudiantes por Carrera:");
-            foreach (var e in conteoPorCarrera)
+            foreach (var grupo in conteoPorCarrera)
+
             {
-                Console.WriteLine($"La carrera de {e.carrera} tiene {e.cantidad} estudiante(s).");
+                Console.WriteLine($"La carrera de {grupo.Key} tiene {grupo.Count()} estudiante(s).");
             }
         }
 
-        public void Any_Linq(List<Estudiante> estudiantes)//eeeeeee
+        public void Any_Linq(List<Estudiante> estudiantes)
         {
             // 5. Algún estudiante mayor a 20 años, Any
-            Console.Write("\n🔍Ingrese la edad mínima a buscar: ");
+            Console.Write("\n🔍 Ingrese la edad mínima a buscar: ");
             if (int.TryParse(Console.ReadLine(), out int edadMinima))
             {
                 bool hay = estudiantes.Any(e => e.Edad > edadMinima);

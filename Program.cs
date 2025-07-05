@@ -50,12 +50,13 @@ namespace GestorEstudiantesLinq
 
         private static void MostrarMenu()
         {
+            //la mayorìa de lo métodos, junto con validaciones
             objGestor = new GestorEstudiantes();
 
             // ya se toman los datos desde la BD
             using var db = new AppDbContext();
+            //y se convierte a una lista
             List<Estudiante> estudiantes = db.Estudiantes.ToList();
-
 
             while (true)
             {
