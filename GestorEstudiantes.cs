@@ -280,7 +280,7 @@ namespace GestorEstudiantesLinq
             var sintesis = estudiantes.Select(e => new
             {
                 //se accede con el nombre personalizado "enombre"
-                enombre = e.Nombre,
+                nombrePersonalizado = e.Nombre,
                 //se accede mediante "la propiedad Carrera"
                 e.Carrera
             });
@@ -288,7 +288,7 @@ namespace GestorEstudiantesLinq
             int apoyo = 1;
             foreach (var item in sintesis)
             {
-                Console.WriteLine($"{apoyo++}.- {item.enombre}, con la carrera de {item.Carrera}");
+                Console.WriteLine($"{apoyo++}.- {item.nombrePersonalizado}, con la carrera de {item.Carrera}");
             }
         }
 
