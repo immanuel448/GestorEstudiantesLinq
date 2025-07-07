@@ -14,10 +14,18 @@ namespace GestorEstudiantesLinq
         // Guarda una lista de estudiantes en la base de datos usando EF Core
         public void GuardarEstudiantesEnBD(List<Estudiante> estudiantes)
         {
-            using var db = new AppDbContext();
-            db.Database.EnsureCreated(); // Crea la base de datos y tabla si no existen
-            db.Estudiantes.AddRange(estudiantes); // Agrega los nuevos estudiantes
-            db.SaveChanges(); // Guarda los cambios en la base de datos
+            try
+            {
+                using var db = new AppDbContext();
+                db.Database.EnsureCreated();
+                db.Estudiantes.AddRange(estudiantes);
+                db.SaveChanges();
+                Console.WriteLine("✅ Estudiantes guardados correctamente en la base de datos.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error al guardar en la base de datos: {ex.Message}");
+            }
         }
 
         // Método auxiliar (ya no se usa) para cargar estudiantes directamente desde la BD
@@ -77,6 +85,7 @@ namespace GestorEstudiantesLinq
             }
         }
 
+        //ingreso de datos desde consola, cons sus validaciones
         public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
         {
             List<Estudiante> estudiantes = new List<Estudiante>();
@@ -255,14 +264,18 @@ namespace GestorEstudiantesLinq
             }
         }
 
-        // 6. OrderBy + First: encontrar al estudiante más joven
+        // 6. OrderBy + FirstOrDefault: encontrar al estudiante más joven
         public void First_Linq(List<Estudiante> estudiantes)
         {
-            var masJoven = estudiantes
-                .OrderBy(e => e.Edad)
-                .First();
-            Console.WriteLine("\n6. El estudiante más joven es:");
-            Console.WriteLine($"{masJoven.Nombre} con {masJoven.Edad} años.");
+            var masJoven = estudiantes.OrderBy(e => e.Edad).FirstOrDefault();
+            if (masJoven != null)
+            {
+                Console.WriteLine($"{masJoven.Nombre} con {masJoven.Edad} años.");
+            }
+            else
+            {
+                Console.WriteLine("⚠️ No hay estudiantes cargados.");
+            }
         }
 
         // 7. Average: calcular edad promedio
