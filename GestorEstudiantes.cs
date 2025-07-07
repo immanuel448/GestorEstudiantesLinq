@@ -11,22 +11,23 @@ namespace GestorEstudiantesLinq
 {
     internal class GestorEstudiantes
     {
+        // Guarda una lista de estudiantes en la base de datos usando EF Core
         public void GuardarEstudiantesEnBD(List<Estudiante> estudiantes)
         {
             using var db = new AppDbContext();
-            db.Database.EnsureCreated(); // crea la BD y la tabla si no existe (el archivo en si)
-            db.Estudiantes.AddRange(estudiantes);
-            db.SaveChanges();
+            db.Database.EnsureCreated(); // Crea la base de datos y tabla si no existen
+            db.Estudiantes.AddRange(estudiantes); // Agrega los nuevos estudiantes
+            db.SaveChanges(); // Guarda los cambios en la base de datos
         }
 
-        //no se usa
+        // Método auxiliar (ya no se usa) para cargar estudiantes directamente desde la BD
         public List<Estudiante> CargarEstudiantesDesdeBD()
         {
             using var db = new AppDbContext();
             return db.Estudiantes.ToList();
         }
 
-        //antes: GuardarEstudiantesEnJson
+        // Exporta la lista de estudiantes a un archivo JSON legible
         public void ExportarEstudiantesAJson(List<Estudiante> estudiantes)
         {
             string ruta = "guardarEstudiantes.json";
@@ -44,8 +45,8 @@ namespace GestorEstudiantesLinq
                 Console.WriteLine($"❌ Error al guardar: {ex.Message}");
             }
         }
-        
-        //ya no se usa7
+
+        // Carga estudiantes desde un archivo JSON (ya no se usa)
         public List<Estudiante> CargarEstudiantesDesdeJson()
         {
             string ruta = "estudiantes.json";
@@ -87,9 +88,8 @@ namespace GestorEstudiantesLinq
                 Console.WriteLine($"\nEstudiante #{id}");
 
                 //los ciclos en general no permiten salir, mientras no se entregue lo deseado
-                //Nombre
+                // Nombre: no puede estar vacío
                 string nombre;
-                //sólo pide que no esté vacío
                 do
                 {
                     Console.Write("Ingrese el nombre: ");
@@ -99,9 +99,8 @@ namespace GestorEstudiantesLinq
                     //se repite mientras esté vacío o solo contenga espacios
                 } while (string.IsNullOrWhiteSpace(nombre));
 
-                // Edad
+                // Edad : debe ser un número mayor a cero
                 int edad;
-                //debe ser un número mayor a cero
                 while (true)
                 {
                     Console.Write("Ingrese la edad: ");
@@ -111,9 +110,8 @@ namespace GestorEstudiantesLinq
                     Console.WriteLine("❌ Edad inválida. Ingrese un número mayor a 0.");
                 }
 
-                // Carrera
+                // Carrera: no puede estar vacía
                 string carrera;
-                //sólo pide que no esté vacío
                 do
                 {
                     Console.Write("Ingrese la carrera: ");
@@ -148,6 +146,7 @@ namespace GestorEstudiantesLinq
             return estudiantes;
         }
 
+        // Verifica si la lista tiene estudiantes, se usa activamente en el Menú
         public bool HayEstudiantes(List<Estudiante> lista)
         {
             if (!lista.Any())//lista vacía
@@ -158,9 +157,9 @@ namespace GestorEstudiantesLinq
             return true;
         }
 
+        // 1. Where: filtra por carrera
         public void Where_Linq(List<Estudiante> estudiantes)
         {
-            // 1. Filtrar estudiantes por carrera, Where
             Console.Write("🔍 Ingrese la carrera a filtrar: ");
             string carrera = Console.ReadLine()?.Trim();
 
@@ -179,10 +178,10 @@ namespace GestorEstudiantesLinq
                 Console.WriteLine($"❌ No se encontraron estudiantes de la carrera '{carrera}'");
             }
         }
-
+        
+        // 2. OrderBy/OrderByDescending: ordenar por edad
         public void Order_Linq(List<Estudiante> estudiantes)
         {
-            // 2. Ordenar por edad
             var resultado = "";
 
             do
@@ -202,7 +201,7 @@ namespace GestorEstudiantesLinq
                 Console.WriteLine("\n2. Estudiantes ordenados por edad (descendente):");
             }else
             {
-                //(2) ascendente
+                //ascendente
                 ordenados = estudiantes.OrderBy(e => e.Edad);
                 Console.WriteLine("\n2. Estudiantes ordenados por edad (ascendente):");
             }
@@ -212,10 +211,10 @@ namespace GestorEstudiantesLinq
                 Console.WriteLine($"-{e.Nombre}, carrera: {e.Carrera}, {e.Edad} años");
             }
         }
-
+        
+        // 3. Select: mostrar solo los nombres
         public void Select_Linq(List<Estudiante> estudiantes)
         {
-            // 3. Proyección: solo nombres. Select
             var nombres = estudiantes.Select(e => e.Nombre);
 
             Console.WriteLine("\n3. Nombres de todos los estudiantes:");
@@ -225,9 +224,9 @@ namespace GestorEstudiantesLinq
             }
         }
 
+        // 4. GroupBy + Count: cantidad de estudiantes por carrera
         public void GroupBy_Linq(List<Estudiante> estudiantes)
         {
-            // 4. Agrupar estudientes por carrera y saber su cantidad, GroupBy
             var conteoPorCarrera = estudiantes
                 .GroupBy(e => e.Carrera);
             Console.WriteLine("\n4. Cantidad de estudiantes por Carrera:");
@@ -238,9 +237,9 @@ namespace GestorEstudiantesLinq
             }
         }
 
+        // 5. Any: verificar si hay estudiantes mayores de cierta edad
         public void Any_Linq(List<Estudiante> estudiantes)
         {
-            // 5. Algún estudiante mayor a 20 años, Any
             Console.Write("\n🔍 Ingrese la edad mínima a buscar: ");
             if (int.TryParse(Console.ReadLine(), out int edadMinima))
             {
@@ -256,9 +255,9 @@ namespace GestorEstudiantesLinq
             }
         }
 
+        // 6. OrderBy + First: encontrar al estudiante más joven
         public void First_Linq(List<Estudiante> estudiantes)
         {
-            // 6. Obtener el estudiante más joven, OrderBy - First()
             var masJoven = estudiantes
                 .OrderBy(e => e.Edad)
                 .First();
@@ -266,17 +265,17 @@ namespace GestorEstudiantesLinq
             Console.WriteLine($"{masJoven.Nombre} con {masJoven.Edad} años.");
         }
 
+        // 7. Average: calcular edad promedio
         public void Average_Linq(List<Estudiante> estudiantes)
         {
-            // 7: Average – Calcular la edad promedio
             var promedio = estudiantes.Average(e => e.Edad);
             Console.WriteLine("\n7. La edad promedio es de:");
             Console.WriteLine($"{promedio} años");
         }
 
+        // 8. Select con objetos anónimos: nombre + carrera
         public void SelectAnonimos_Linq(List<Estudiante> estudiantes)
         {
-            //8: Select con objetos anónimos
             var sintesis = estudiantes.Select(e => new
             {
                 //se accede con el nombre personalizado "enombre"
@@ -292,6 +291,7 @@ namespace GestorEstudiantesLinq
             }
         }
 
+        // 9. Select personalizado: resumen extendido por estudiante
         public void Resumen_Linq(List<Estudiante> estudiantes)
         {
             /*
