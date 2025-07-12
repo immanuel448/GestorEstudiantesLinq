@@ -19,14 +19,7 @@ namespace GestorEstudiantesLinq
             db.SaveChanges();
         }
 
-        //no se usa
-        public List<Estudiante> CargarEstudiantesDesdeBD()
-        {
-            using var db = new AppDbContext();
-            return db.Estudiantes.ToList();
-        }
-
-        //antes: GuardarEstudiantesEnJson
+        //Guarda estudiantes en un archivo externo del tipo JSON
         public void ExportarEstudiantesAJson(List<Estudiante> estudiantes)
         {
             string ruta = "guardarEstudiantes.json";
@@ -45,37 +38,6 @@ namespace GestorEstudiantesLinq
             }
         }
         
-        //ya no se usa7
-        public List<Estudiante> CargarEstudiantesDesdeJson()
-        {
-            string ruta = "estudiantes.json";
-
-            try
-            {
-                //se asegura que el archivo exista, IMPORTANTE
-                if (!File.Exists(ruta))
-                {
-                    Console.WriteLine("⚠️ El archivo aún no existe.");
-                    //se regresa una lista vacía
-                    return new List<Estudiante>();  
-                }
-
-                //se obtienen datos deL archivo
-                string json = File.ReadAllText(ruta);
-                //se parsea el Json a una lista de objetos de la clase Estudiante
-                var estudiantes = JsonSerializer.Deserialize<List<Estudiante>>(json);
-                Console.WriteLine($"✅ Estudiantes cargados correctamente desde '{ruta}'");
-                //el operador ?? verifica si 'estudiantes' es null; si lo es, devuelve una nueva lista vacía
-                return estudiantes ?? new List<Estudiante>();
-            }
-            catch (Exception ex)
-            {
-                //con errores
-                Console.WriteLine($"❌ Error al cargar: {ex.Message}");
-                return new List<Estudiante>();
-            }
-        }
-
         public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
         {
             List<Estudiante> estudiantes = new List<Estudiante>();
@@ -158,6 +120,7 @@ namespace GestorEstudiantesLinq
             return true;
         }
 
+        //MÉTODOS DE LINQ ---------------------------
         public void Where_Linq(List<Estudiante> estudiantes)
         {
             // 1. Filtrar estudiantes por carrera, Where
@@ -198,6 +161,7 @@ namespace GestorEstudiantesLinq
 
             if (resultado == "1")
             {
+                //(1) descendente
                 ordenados = estudiantes.OrderByDescending(e => e.Edad);
                 Console.WriteLine("\n2. Estudiantes ordenados por edad (descendente):");
             }else
@@ -225,7 +189,6 @@ namespace GestorEstudiantesLinq
             }
         }
 
-        //eeeeeeeeeeee
         public void GroupBy_Linq(List<Estudiante> estudiantes)
         {
             // 4. Contar estudiantes por carrera, GroupBy - Select
