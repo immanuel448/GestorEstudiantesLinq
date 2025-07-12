@@ -18,29 +18,30 @@ namespace GestorEstudiantesLinq
         public string Carrera { get; set; }
     }
 
+    // Contexto de Entity Framework Core para manejar la conexión y las operaciones con SQLite
     public class AppDbContext : DbContext
     {
         /*
-         * Requiere los siguientes paquetes para funcionar con Entity Framework Core y SQLite:
-         * dotnet add package Microsoft.EntityFrameworkCore
-         * dotnet add package Microsoft.EntityFrameworkCore.Sqlite
-         * dotnet add package Microsoft.EntityFrameworkCore.Tools
+         * Paquetes NuGet requeridos para funcionar:
+         * - Microsoft.EntityFrameworkCore
+         * - Microsoft.EntityFrameworkCore.Sqlite
+         * - Microsoft.EntityFrameworkCore.Tools
          */
 
-        // Representa la tabla Estudiantes en la base de datos
+        // Representa la tabla 'Estudiantes' en la base de datos
         public DbSet<Estudiante> Estudiantes { get; set; }
 
+        // Configura la conexión con la base de datos SQLite
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // Configura la conexión a la base de datos SQLite.
-            // Si el archivo 'estudiantes.db' no existe, se creará automáticamente.
+            // Si el archivo 'estudiantes.db' no existe, se crea automáticamente al ejecutarse
             optionsBuilder.UseSqlite("Data Source=estudiantes.db");
         }
     }
 
     class Program
     {
-        //para usar los métodos de esta clase
+        // Instancia del gestor que contiene toda la lógica del sistema (cargar, guardar, consultas LINQ, etc.)
         private static GestorEstudiantes objGestor;
 
         static void Main(string[] args)
@@ -50,16 +51,17 @@ namespace GestorEstudiantesLinq
 
         private static void MostrarMenu()
         {
+            //la mayorìa de lo métodos, junto con validaciones
             objGestor = new GestorEstudiantes();
 
             // ya se toman los datos desde la BD
             using var db = new AppDbContext();
+            //y se convierte a una lista
             List<Estudiante> estudiantes = db.Estudiantes.ToList();
-
 
             while (true)
             {
-                //esto es el menú
+                //esto es el menú, si no se selecciona nada el switch va a repetir el menú
                 Console.Clear();
                 Console.WriteLine("📋 MENÚ PRINCIPAL - CONSULTAS LINQ");
                 Console.WriteLine("1. Filtrar por carrera");
@@ -122,11 +124,16 @@ namespace GestorEstudiantesLinq
                             objGestor.ExportarEstudiantesAJson(estudiantes);
                         break;
                     case "11":
-                        //se ingresan estudiantes desde la consola, se continúa con el id subsecuente
+                        // Captura el último ID disponible para evitar duplicados
                         int ultimoId = estudiantes.Any() ? estudiantes.Max(e => e.Id) : 0;
+
+                        // Leer estudiantes desde la consola (validado por consola)
                         var nuevosEstudiantes = objGestor.LeerEstudiantesDesdeConsola(ultimoId);
-                        //se añaden los estudiantes ingresados desde consola a los anteriores
-                        estudiantes.AddRange(nuevosEstudiantes);//no sobreescribe sino que los añade
+
+                        // Agrega los nuevos estudiantes a la lista en memoria
+                        estudiantes.AddRange(nuevosEstudiantes);
+
+                        // Guarda los nuevos registros en la base de datos
                         objGestor.GuardarEstudiantesEnBD(nuevosEstudiantes);
                         break;
                     case "0":
@@ -135,6 +142,7 @@ namespace GestorEstudiantesLinq
                         return;
                     default:
                         Console.WriteLine("❌ Opción no válida. Intente de nuevo.");
+                        //repite el menú
                         break;
                 }
                 //en este punto va a volver a ciclar
