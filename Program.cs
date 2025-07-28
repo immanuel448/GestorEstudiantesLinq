@@ -4,19 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-
 namespace GestorEstudiantesLinq
 {
+    //**esto es importante para instalar paquetes
     //dotnet nuget list source
     //dotnet nuget remove source packagesource1q
 
-    public class Estudiante
-    {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public int Edad { get; set; }
-        public string Carrera { get; set; }
-    }
+
 
     // Contexto de Entity Framework Core para manejar la conexión y las operaciones con SQLite
     public class AppDbContext : DbContext

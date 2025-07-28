@@ -127,8 +127,8 @@ namespace GestorEstudiantesLinq
             return true;
         }
 
-        // 1. Where: filtra por carrera
         //MÉTODOS DE LINQ ---------------------------
+        // 1. Where: filtra por carrera
         public void Where_Linq(List<Estudiante> estudiantes)
         {
             Console.Write("🔍 Ingrese la carrera a filtrar: ");
@@ -203,7 +203,6 @@ namespace GestorEstudiantesLinq
                 .GroupBy(e => e.Carrera);
             Console.WriteLine("\n4. Cantidad de estudiantes por Carrera:");
             foreach (var grupo in conteoPorCarrera)
-
             {
                 Console.WriteLine($"La carrera de {grupo.Key} tiene {grupo.Count()} estudiante(s).");
             }
