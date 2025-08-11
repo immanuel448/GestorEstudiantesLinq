@@ -262,7 +262,7 @@ namespace GestorEstudiantesLinq
             int apoyo = 1;
             foreach (var item in sintesis)
             {
-                Console.WriteLine($"{apoyo++}.- {item.nombrePersonalizado}, con la carrera de {item.Carrera}");
+                Console.WriteLine($"{apo++}.- {item.nombrePersonalizado}, con la carrera de {item.Carrera}");
             }
         }
 
