@@ -112,5 +112,5 @@ Este proyecto forma parte de una serie de videos en YouTube donde se explica cad
 
 ## ✅ Autor
 
-Creado paso a paso con ayuda de ChatGPT y desarrollado por [immanuel448](https://github.com/immanuel448)
+Desarrollado por [immanuel448](https://github.com/immanuel448)
 
