@@ -106,7 +106,7 @@ El proyecto sigue el principio de responsabilidad única:
 
 Este proyecto forma parte de una serie de videos en YouTube donde se explica cada paso desde cero.
 
-[.NET 8.0](https://www.youtube.com/watch?v=1Q5n6XDp2uI&t=50s)
+[Video del Proyecto en Youtube](https://www.youtube.com/watch?v=1Q5n6XDp2uI&t=50s)
 
 ---
 
