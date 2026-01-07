@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using GestorEstudiantesLinq;
 using Microsoft.EntityFrameworkCore;
+using GestorEstudiantesLinq.Models;
+using GestorEstudiantesLinq.Data;
 
-namespace GestorEstudiantesLinq
+namespace GestorEstudiantesLinq.Services
 {
     internal class GestorEstudiantes
     {
@@ -262,7 +261,7 @@ namespace GestorEstudiantesLinq
             int apoyo = 1;
             foreach (var item in sintesis)
             {
-                Console.WriteLine($"{apo++}.- {item.nombrePersonalizado}, con la carrera de {item.Carrera}");
+                Console.WriteLine($"{apoyo++}.- {item.nombrePersonalizado}, con la carrera de {item.Carrera}");
             }
         }
 

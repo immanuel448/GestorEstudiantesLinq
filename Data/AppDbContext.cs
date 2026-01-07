@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GestorEstudiantesLinq.Models;
 
-namespace GestorEstudiantesLinq
+namespace GestorEstudiantesLinq.Data
 {
     // Contexto de Entity Framework Core para manejar la conexión y las operaciones con SQLite
     public class AppDbContext : DbContext

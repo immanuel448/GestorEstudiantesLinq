@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using GestorEstudiantesLinq.Models;
+using GestorEstudiantesLinq.Services;
+using GestorEstudiantesLinq.Data;
 
 namespace GestorEstudiantesLinq
 {
@@ -19,7 +20,7 @@ namespace GestorEstudiantesLinq
 
         private static void MostrarMenu()
         {
-            //la mayorìa de lo métodos, junto con validaciones
+            //la mayoría de lo métodos, junto con validaciones
             objGestor = new GestorEstudiantes();
 
             // ya se toman los datos desde la BD
