@@ -5,20 +5,33 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using GestorEstudiantesLinq.Models;
 using GestorEstudiantesLinq.Data;
+using GestorEstudiantesLinq.Repositories;
+
 
 namespace GestorEstudiantesLinq.Services
 {
     internal class GestorEstudiantes
     {
+
+        private readonly IEstudianteRepository _repositorio;
+
+        public GestorEstudiantes()
+        {
+            _repositorio = new EstudianteRepository();
+        }
+
+        public List<Estudiante> ObtenerTodos()
+        {
+            return _repositorio.ObtenerTodos();
+        }
+
+
         // Guarda una lista de estudiantes en la base de datos usando EF Core
         public void GuardarEstudiantesEnBD(List<Estudiante> estudiantes)
         {
             try
             {
-                using var db = new AppDbContext();
-                db.Database.EnsureCreated();
-                db.Estudiantes.AddRange(estudiantes);
-                db.SaveChanges();
+                _repositorio.AgregarVarios(estudiantes);
                 Console.WriteLine("✅ Estudiantes guardados correctamente en la base de datos.");
             }
             catch (Exception ex)
