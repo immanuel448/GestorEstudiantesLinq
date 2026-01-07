@@ -25,6 +25,7 @@ namespace GestorEstudiantesLinq
 
             // ya se toman los datos desde la BD
             using var db = new AppDbContext();
+            db.Database.EnsureCreated(); // crea bd y tablas si no existen
             //y se convierte a una lista
             List<Estudiante> estudiantes = db.Estudiantes.ToList();
 
