@@ -30,16 +30,6 @@ namespace GestorEstudiantesLinq.Services
             return await _repositorio.ObtenerTodosAsync();
         }
 
-        //eeeee eliminado
-        //public List<Estudiante> ObtenerTodos()
-        //{
-        //    // Delegamos la responsabilidad al repositorio
-        //    // GestorEstudiantes no sabe cómo se obtienen los datos,
-        //    // solo sabe que el repositorio cumple el contrato de la interfaz
-        //    return _repositorio.ObtenerTodos();//eeeee obtenertodos
-        //}
-
-
         // Guarda una lista de estudiantes en la base de datos usando EF Core
         public async Task GuardarEstudiantesEnBDAsync(List<Estudiante> estudiantes)
         {
