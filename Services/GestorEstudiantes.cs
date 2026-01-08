@@ -13,25 +13,43 @@ namespace GestorEstudiantesLinq.Services
     internal class GestorEstudiantes
     {
 
+        // Declaramos una referencia privada y de solo lectura
+        // Usamos la INTERFAZ para no depender de una implementación concreta
         private readonly IEstudianteRepository _repositorio;
 
         public GestorEstudiantes()
         {
+            // Aquí se crea la instancia REAL del repositorio
+            // aunque la referencia sea del tipo de la interfaz
+            // Esto permite cambiar la implementación sin modificar el resto del código
             _repositorio = new EstudianteRepository();
         }
 
-        public List<Estudiante> ObtenerTodos()
+        public async Task<List<Estudiante>> ObtenerEstudiantesAsync()
         {
-            return _repositorio.ObtenerTodos();
+            return await _repositorio.ObtenerTodosAsync();
         }
+
+        //eeeee eliminado
+        //public List<Estudiante> ObtenerTodos()
+        //{
+        //    // Delegamos la responsabilidad al repositorio
+        //    // GestorEstudiantes no sabe cómo se obtienen los datos,
+        //    // solo sabe que el repositorio cumple el contrato de la interfaz
+        //    return _repositorio.ObtenerTodos();//eeeee obtenertodos
+        //}
 
 
         // Guarda una lista de estudiantes en la base de datos usando EF Core
-        public void GuardarEstudiantesEnBD(List<Estudiante> estudiantes)
+        public async Task GuardarEstudiantesEnBDAsync(List<Estudiante> estudiantes)
         {
             try
             {
-                _repositorio.AgregarVarios(estudiantes);
+                foreach (var estudiante in estudiantes)
+                {
+                    await _repositorio.AgregarAsync(estudiante);
+                }
+
                 Console.WriteLine("✅ Estudiantes guardados correctamente en la base de datos.");
             }
             catch (Exception ex)

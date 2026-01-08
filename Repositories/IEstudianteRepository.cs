@@ -5,8 +5,7 @@ namespace GestorEstudiantesLinq.Repositories
 {
     public interface IEstudianteRepository
     {
-        List<Estudiante> ObtenerTodos();
-        void Agregar(Estudiante estudiante);
-        void AgregarVarios(List<Estudiante> estudiantes);
+        Task<List<Estudiante>> ObtenerTodosAsync();
+        Task AgregarAsync(Estudiante estudiante);
     }
 }

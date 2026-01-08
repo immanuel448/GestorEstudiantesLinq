@@ -13,19 +13,17 @@ namespace GestorEstudiantesLinq
         // Instancia del gestor que contiene toda la lógica del sistema (cargar, guardar, consultas LINQ, etc.)
         private static GestorEstudiantes objGestor;
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            MostrarMenu();
+            await MostrarMenuAsync();
         }
 
-        private static void MostrarMenu()
+        private static async Task MostrarMenuAsync()
         {
             //la mayoría de lo métodos, junto con validaciones
             objGestor = new GestorEstudiantes();
 
-            var gestor = new GestorEstudiantes();
-            List<Estudiante> estudiantes = gestor.ObtenerTodos();
-
+            List<Estudiante> estudiantes = await objGestor.ObtenerEstudiantesAsync();
 
             while (true)
             {
@@ -102,7 +100,7 @@ namespace GestorEstudiantesLinq
                         estudiantes.AddRange(nuevosEstudiantes);
 
                         // Guarda los nuevos registros en la base de datos
-                        objGestor.GuardarEstudiantesEnBD(nuevosEstudiantes);
+                        objGestor.GuardarEstudiantesEnBDAsync(nuevosEstudiantes);
                         break;
                     case "0":
                         Console.WriteLine("👋 Saliendo...");

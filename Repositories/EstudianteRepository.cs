@@ -16,21 +16,16 @@ namespace GestorEstudiantesLinq.Repositories
             _db.Database.EnsureCreated();
         }
 
-        public List<Estudiante> ObtenerTodos()
+        public async Task<List<Estudiante>> ObtenerTodosAsync()
         {
-            return _db.Estudiantes.ToList();
+            return await _db.Estudiantes.ToListAsync();
         }
 
-        public void Agregar(Estudiante estudiante)
+        public async Task AgregarAsync(Estudiante estudiante)
         {
             _db.Estudiantes.Add(estudiante);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void AgregarVarios(List<Estudiante> estudiantes)
-        {
-            _db.Estudiantes.AddRange(estudiantes);
-            _db.SaveChanges();
-        }
     }
 }
