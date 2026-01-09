@@ -27,5 +27,21 @@ namespace GestorEstudiantesLinq.Repositories
             await _db.SaveChangesAsync();
         }
 
+        public async Task ActualizarAsync(Estudiante estudiante)
+        {
+            _db.Estudiantes.Update(estudiante);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task EliminarAsync(int id)
+        {
+            var est = await _db.Estudiantes.FindAsync(id);
+            if (est != null)
+            {
+                _db.Estudiantes.Remove(est);
+                await _db.SaveChangesAsync();
+            }
+        }
+
     }
 }

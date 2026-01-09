@@ -41,6 +41,8 @@ namespace GestorEstudiantesLinq
                 Console.WriteLine("9. Resumen personalizado");
                 Console.WriteLine("10. Exportar estudiantes a JSON");
                 Console.WriteLine("11. Agregar estudiantes desde consola");
+                Console.WriteLine("12. Editar estudiante");
+                Console.WriteLine("13. Eliminar estudiante");
                 Console.WriteLine("0. Salir");
                 Console.Write("Seleccione una opción: ");
                 //se obtiene la respuesta
@@ -93,14 +95,21 @@ namespace GestorEstudiantesLinq
                         // Captura el último ID disponible para evitar duplicados
                         int ultimoId = estudiantes.Any() ? estudiantes.Max(e => e.Id) : 0;
 
-                        // Leer estudiantes desde la consola (validado por consola)
+                        // Leer estudiantes desde la consola (validadLeerEstudiantesDesdeConsola por consola)
                         var nuevosEstudiantes = objGestor.LeerEstudiantesDesdeConsola(ultimoId);
 
-                        // Agrega los nuevos estudiantes a la lista en memoria
-                        estudiantes.AddRange(nuevosEstudiantes);
-
                         // Guarda los nuevos registros en la base de datos
-                        objGestor.GuardarEstudiantesEnBDAsync(nuevosEstudiantes);
+                        await objGestor.GuardarEstudiantesEnBDAsync(nuevosEstudiantes);
+                        // Actualizamos la lista de estudiantes
+                        estudiantes = await objGestor.ObtenerEstudiantesAsync();
+                        break;
+                    case "12":
+                        //if (objGestor.HayEstudiantes(estudiantes))
+                        //    objGestor.ExportarEstudiantesAJson(estudiantes);
+                        break;
+                    case "13":
+                        //if (objGestor.HayEstudiantes(estudiantes))
+                        //    objGestor.ExportarEstudiantesAJson(estudiantes);
                         break;
                     case "0":
                         Console.WriteLine("👋 Saliendo...");

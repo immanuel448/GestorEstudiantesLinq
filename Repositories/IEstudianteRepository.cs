@@ -7,5 +7,9 @@ namespace GestorEstudiantesLinq.Repositories
     {
         Task<List<Estudiante>> ObtenerTodosAsync();
         Task AgregarAsync(Estudiante estudiante);
+        Task ActualizarAsync(Estudiante estudiante);
+        Task EliminarAsync(int id);
+
+
     }
 }
