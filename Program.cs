@@ -118,14 +118,11 @@ namespace GestorEstudiantesLinq
                         }
 
                         // Solicitar nuevos datos
-                        Console.Write("Nuevo nombre: ");
-                        paraEditar.Nombre = Console.ReadLine();
+                        paraEditar.Nombre = ConsoleHelper.LeerTextoObligatorio("Nuevo nombre: ");
 
-                        Console.Write("Nueva edad: ");
-                        paraEditar.Edad = int.Parse(Console.ReadLine());
+                        paraEditar.Edad = ConsoleHelper.LeerEnteroSeguro("Nueva edad: ");
 
-                        Console.Write("Nueva carrera: ");
-                        paraEditar.Carrera = Console.ReadLine();
+                        paraEditar.Carrera = ConsoleHelper.LeerTextoObligatorio("Nueva carrera: ");
 
                         // Actualizar en la base de datos
                         await objGestor
@@ -138,8 +135,7 @@ namespace GestorEstudiantesLinq
                         Console.WriteLine("✅ Actualizado");
                         break;
                     case "13":
-                        Console.Write("ID a eliminar: ");
-                        int idDel = int.Parse(Console.ReadLine());///eeeeee
+                        int idDel = ConsoleHelper.LeerEnteroSeguro("ID a eliminar: ");
 
                         // Validar si se encontró el estudiante
                         await objGestor

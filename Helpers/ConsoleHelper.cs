@@ -53,6 +53,23 @@ namespace GestorEstudiantesLinq.Helpers
             }
         }
 
+        // leer texto obligatorio
+        public static string LeerTextoObligatorio(string mensaje)
+        {
+            string texto;
+
+            while (true)
+            {
+                Console.Write(mensaje);
+                texto = Console.ReadLine()?.Trim();
+
+                if (!string.IsNullOrWhiteSpace(texto))
+                    return texto;
+
+                Console.WriteLine("❌ No puede estar vacío");
+            }
+        }
+
         public static bool LeerConfirmacion(string mensaje)
         {
             string resp;
