@@ -100,7 +100,6 @@ public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
                 if (!continuar)
                 break;
         }
-
         return estudiantes;
     }
 
@@ -115,17 +114,6 @@ public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
         public async Task EliminarEstudianteAsync(int id)
         {
             await _repositorio.EliminarAsync(id);
-        }
-
-        // Verifica si la lista tiene estudiantes, se usa activamente en el Menú
-        public bool HayEstudiantes(List<Estudiante> lista)
-        {
-            if (!lista.Any())//lista vacía
-            {
-                Console.WriteLine("⚠️ No hay estudiantes cargados. Ingrese datos primero (opción 11).");
-                return false;
-            }
-            return true;
         }
 
         //MÉTODOS DE LINQ ---------------------------

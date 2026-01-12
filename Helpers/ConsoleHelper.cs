@@ -8,6 +8,20 @@ namespace GestorEstudiantesLinq.Helpers
 {
     internal static class ConsoleHelper
     {
+        public static int LeerEnteroSeguro(string mensaje)
+        {
+            int valor;
+
+            while (true)
+            {
+                Console.Write(mensaje);
+                if (int.TryParse(Console.ReadLine(), out valor))
+                    return valor;
+
+                Console.WriteLine("❌ Ingrese un número válido");
+            }
+        }
+
         public static string LeerTextoNoVacio(string mensaje)
         {
             string valor;
@@ -51,6 +65,17 @@ namespace GestorEstudiantesLinq.Helpers
             } while (resp != "s" && resp != "n");
 
             return resp == "s";
+        }
+
+        // Verifica si la lista tiene estudiantes, se usa activamente en el Menú
+        public static bool HayElementos<T>(List<T> lista)
+        {
+            if (!lista.Any())
+            {
+                Console.WriteLine("⚠️ No hay registros cargados.");
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -53,43 +53,43 @@ namespace GestorEstudiantesLinq
                 switch (opcion)
                 {
                     case "1":
-                        if (objGestor.HayEstudiantes(estudiantes))
+                        if (ConsoleHelper.HayElementos(estudiantes))
                             objGestor.Where_Linq(estudiantes);
                         break;
                     case "2":
-                        if (objGestor.HayEstudiantes(estudiantes))
+                        if (ConsoleHelper.HayElementos(estudiantes))
                             objGestor.Order_Linq(estudiantes);
                         break;
                     case "3":
-                        if (objGestor.HayEstudiantes(estudiantes))
+                        if (ConsoleHelper.HayElementos(estudiantes))
                             objGestor.Select_Linq(estudiantes);
                         break;
                     case "4":
-                        if (objGestor.HayEstudiantes(estudiantes))
+                        if (ConsoleHelper.HayElementos(estudiantes))
                             objGestor.GroupBy_Linq(estudiantes);
                         break;
                     case "5":
-                        if (objGestor.HayEstudiantes(estudiantes))
+                        if (ConsoleHelper.HayElementos(estudiantes))
                             objGestor.Any_Linq(estudiantes);
                         break;
                     case "6":
-                        if (objGestor.HayEstudiantes(estudiantes))
+                        if (ConsoleHelper.HayElementos(estudiantes))
                             objGestor.First_Linq(estudiantes);
                         break;
                     case "7":
-                        if (objGestor.HayEstudiantes(estudiantes))
+                        if (ConsoleHelper.HayElementos(estudiantes))
                             objGestor.Average_Linq(estudiantes);
                         break;
                     case "8":
-                        if (objGestor.HayEstudiantes(estudiantes))
+                        if (ConsoleHelper.HayElementos(estudiantes))
                             objGestor.SelectAnonimos_Linq(estudiantes);
                         break;
                     case "9":
-                        if (objGestor.HayEstudiantes(estudiantes))
+                        if (ConsoleHelper.HayElementos(estudiantes))
                             objGestor.Resumen_Linq(estudiantes);
                         break;
                     case "10":
-                        if (objGestor.HayEstudiantes(estudiantes))
+                        if (ConsoleHelper.HayElementos(estudiantes))
                             objGestor.ExportarEstudiantesAJson(estudiantes);
                         break;
                     case "11":
@@ -105,7 +105,7 @@ namespace GestorEstudiantesLinq
                         estudiantes = await objGestor.ObtenerEstudiantesAsync();
                         break;
                     case "12":
-                        int idEdit = objGestor.LeerEnteroSeguro("ID a editar: ");
+                        int idEdit = ConsoleHelper.LeerEnteroSeguro("ID a editar: ");
 
                         var paraEditar =
                             estudiantes.FirstOrDefault(e => e.Id == idEdit);
