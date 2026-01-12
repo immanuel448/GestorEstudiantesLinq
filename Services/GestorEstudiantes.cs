@@ -136,12 +136,17 @@ namespace GestorEstudiantesLinq.Services
             return estudiantes;
         }
 
+        // Actualiza un estudiante en la base de datos
         public async Task ActualizarEstudianteAsync(Estudiante est)
         {
             await _repositorio.ActualizarAsync(est);
         }
 
-
+        // Elimina un estudiante por ID en la base de datos
+        public async Task EliminarEstudianteAsync(int id)
+        {
+            await _repositorio.EliminarAsync(id);
+        }
 
         // Verifica si la lista tiene estudiantes, se usa activamente en el Menú
         public bool HayEstudiantes(List<Estudiante> lista)

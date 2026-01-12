@@ -35,7 +35,9 @@ namespace GestorEstudiantesLinq.Repositories
 
         public async Task EliminarAsync(int id)
         {
+            // Buscar el estudiante por ID
             var est = await _db.Estudiantes.FindAsync(id);
+            // Si se encuentra, eliminarlo
             if (est != null)
             {
                 _db.Estudiantes.Remove(est);

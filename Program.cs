@@ -4,6 +4,7 @@ using System.Linq;
 using GestorEstudiantesLinq.Models;
 using GestorEstudiantesLinq.Services;
 using GestorEstudiantesLinq.Data;
+using GestorEstudiantesLinq.Helpers;
 
 namespace GestorEstudiantesLinq
 {
@@ -104,8 +105,7 @@ namespace GestorEstudiantesLinq
                         estudiantes = await objGestor.ObtenerEstudiantesAsync();
                         break;
                     case "12":
-                        Console.Write("ID a editar: ");
-                        int idEdit = int.Parse(Console.ReadLine());//eeee esto es propenso a errores, no?
+                        int idEdit = objGestor.LeerEnteroSeguro("ID a editar: ");
 
                         var paraEditar =
                             estudiantes.FirstOrDefault(e => e.Id == idEdit);
@@ -137,10 +137,18 @@ namespace GestorEstudiantesLinq
 
                         Console.WriteLine("✅ Actualizado");
                         break;
-
                     case "13":
-                        //if (objGestor.HayEstudiantes(estudiantes))
-                        //    objGestor.ExportarEstudiantesAJson(estudiantes);
+                        Console.Write("ID a eliminar: ");
+                        int idDel = int.Parse(Console.ReadLine());///eeeeee
+
+                        // Validar si se encontró el estudiante
+                        await objGestor
+                            .EliminarEstudianteAsync(idDel);
+                        // Actualizamos la lista de estudiantes
+                        estudiantes =
+                            await objGestor.ObtenerEstudiantesAsync();
+
+                        Console.WriteLine("🗑 Eliminado");
                         break;
                     case "0":
                         Console.WriteLine("👋 Saliendo...");
@@ -157,4 +165,5 @@ namespace GestorEstudiantesLinq
             }
         }
     }
+
 }
