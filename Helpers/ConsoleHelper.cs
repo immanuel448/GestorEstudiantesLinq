@@ -8,31 +8,49 @@ namespace GestorEstudiantesLinq.Helpers
 {
     internal static class ConsoleHelper
     {
-        public static int LeerEnteroSeguro(string mensaje)
+        public static string LeerTextoNoVacio(string mensaje)
+        {
+            string valor;
+            do
+            {
+                Console.Write(mensaje);
+                valor = Console.ReadLine()?.Trim();
+
+                if (string.IsNullOrWhiteSpace(valor))
+                    Console.WriteLine("❌ No puede estar vacío");
+
+            } while (string.IsNullOrWhiteSpace(valor));
+
+            return valor;
+        }
+
+        public static int LeerEnteroMin(string mensaje, int min)
         {
             int valor;
 
             while (true)
             {
                 Console.Write(mensaje);
-                if (int.TryParse(Console.ReadLine(), out valor))
+                // TryParse devuelve true si la conversión fue exitosa 
+                if (int.TryParse(Console.ReadLine(), out valor) && valor >= min)
                     return valor;
 
-                Console.WriteLine("❌ Ingrese un número válido");
+                Console.WriteLine($"❌ Ingrese un número >= {min}");
             }
         }
 
-        public static string LeerTextoNoVacio(string mensaje)
+        public static bool LeerConfirmacion(string mensaje)
         {
-            string texto;
+            string resp;
 
             do
             {
                 Console.Write(mensaje);
-                texto = Console.ReadLine()?.Trim();
-            } while (string.IsNullOrWhiteSpace(texto));
+                resp = Console.ReadLine()?.Trim().ToLower();
 
-            return texto;
+            } while (resp != "s" && resp != "n");
+
+            return resp == "s";
         }
     }
 }

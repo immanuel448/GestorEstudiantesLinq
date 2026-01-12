@@ -1,11 +1,13 @@
-﻿using System;
+﻿using GestorEstudiantesLinq.Data;
+using GestorEstudiantesLinq.Helpers;
+using GestorEstudiantesLinq.Models;
+using GestorEstudiantesLinq.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
-using GestorEstudiantesLinq.Models;
-using GestorEstudiantesLinq.Data;
-using GestorEstudiantesLinq.Repositories;
+using GestorEstudiantesLinq.Helpers;
 
 
 namespace GestorEstudiantesLinq.Services
@@ -66,78 +68,45 @@ namespace GestorEstudiantesLinq.Services
                 Console.WriteLine($"❌ Error al guardar: {ex.Message}");
             }
         }
-        
-        public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
+
+public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
+    {
+        List<Estudiante> estudiantes = new();
+        // Se parte desde el último id existente
+        int id = ultimoId + 1;
+
+        while (true)
         {
-            List<Estudiante> estudiantes = new List<Estudiante>();
-            //se parte desde el último id existente
-            int id = ultimoId + 1;
+            Console.WriteLine($"\nEstudiante #{id}");
 
-            while (true)
+            // Usamos los métodos del ConsoleHelper para leer datos válidos
+            string nombre = ConsoleHelper.LeerTextoNoVacio("Nombre: ");
+            int edad = ConsoleHelper.LeerEnteroMin("Edad: ", 1);
+            string carrera = ConsoleHelper.LeerTextoNoVacio("Carrera: ");
+
+            // Se agrega a la lista
+            estudiantes.Add(new Estudiante
             {
-                Console.WriteLine($"\nEstudiante #{id}");
+                Id = id++,
+                Nombre = nombre,
+                Edad = edad,
+                Carrera = carrera
+            });
 
-                //los ciclos en general no permiten salir, mientras no se entregue lo deseado
-                // Nombre: no puede estar vacío
-                string nombre;
-                do
-                {
-                    Console.Write("Ingrese el nombre: ");
-                    nombre = Console.ReadLine().Trim();
-                    if (string.IsNullOrWhiteSpace(nombre))
-                        Console.WriteLine("❌ El nombre no puede estar vacío.");
-                    //se repite mientras esté vacío o solo contenga espacios
-                } while (string.IsNullOrWhiteSpace(nombre));
+            bool continuar =
+                ConsoleHelper.LeerConfirmacion("¿Agregar otro estudiante? (s/n): ");
 
-                // Edad : debe ser un número mayor a cero
-                int edad;
-                while (true)
-                {
-                    Console.Write("Ingrese la edad: ");
-                    string input = Console.ReadLine();
-                    if (int.TryParse(input, out edad) && edad > 0)
-                        break;//sale cuando obtengo lo deseado
-                    Console.WriteLine("❌ Edad inválida. Ingrese un número mayor a 0.");
-                }
-
-                // Carrera: no puede estar vacía
-                string carrera;
-                do
-                {
-                    Console.Write("Ingrese la carrera: ");
-                    carrera = Console.ReadLine().Trim();
-                    if (string.IsNullOrWhiteSpace(carrera))
-                        Console.WriteLine("❌ La carrera no puede estar vacía.");
-                } while (string.IsNullOrWhiteSpace(carrera));
-
-                // se agrega a la lista -----------------------------
-                estudiantes.Add(new Estudiante
-                {
-                    Id = id++,
-                    Nombre = nombre,
-                    Edad = edad,
-                    Carrera = carrera
-                });
-
-                // ¿Desea continuar? (ingresar más estudiantes)-----------------------------
-                string respuesta = "";
-                while (respuesta != "s" && respuesta != "n")
-                {
-                    //si es "s" vuelve a repetir todo
-                    //si es "n" sale de este método
-                    //si es diferente "s", "n", se repite este ciclo
-                    Console.Write("\n¿Desea agregar otro estudiante? (s/n): ");
-                    respuesta = Console.ReadLine().Trim().ToLower();
-                }
-                if (respuesta == "n")
-                    //termina este método "LeerEstudiantesDesdeConsola"
-                    break;
-            }
-            return estudiantes;
+                //con un "s" se vuelve a ciclar, con "n" se sale
+                if (!continuar)
+                break;
         }
 
-        // Actualiza un estudiante en la base de datos
-        public async Task ActualizarEstudianteAsync(Estudiante est)
+        return estudiantes;
+    }
+
+
+    // Actualiza un estudiante en la base de datos
+    public async Task ActualizarEstudianteAsync(Estudiante est)
         {
             await _repositorio.ActualizarAsync(est);
         }
