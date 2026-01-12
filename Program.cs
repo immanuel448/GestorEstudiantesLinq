@@ -104,9 +104,40 @@ namespace GestorEstudiantesLinq
                         estudiantes = await objGestor.ObtenerEstudiantesAsync();
                         break;
                     case "12":
-                        //if (objGestor.HayEstudiantes(estudiantes))
-                        //    objGestor.ExportarEstudiantesAJson(estudiantes);
+                        Console.Write("ID a editar: ");
+                        int idEdit = int.Parse(Console.ReadLine());//eeee esto es propenso a errores, no?
+
+                        var paraEditar =
+                            estudiantes.FirstOrDefault(e => e.Id == idEdit);
+
+                        // Validar si se encontró el estudiante
+                        if (paraEditar == null)
+                        {
+                            Console.WriteLine("No existe");
+                            break;
+                        }
+
+                        // Solicitar nuevos datos
+                        Console.Write("Nuevo nombre: ");
+                        paraEditar.Nombre = Console.ReadLine();
+
+                        Console.Write("Nueva edad: ");
+                        paraEditar.Edad = int.Parse(Console.ReadLine());
+
+                        Console.Write("Nueva carrera: ");
+                        paraEditar.Carrera = Console.ReadLine();
+
+                        // Actualizar en la base de datos
+                        await objGestor
+                            .ActualizarEstudianteAsync(paraEditar);
+
+                        // Actualizamos la lista de estudiantes
+                        estudiantes =
+                            await objGestor.ObtenerEstudiantesAsync();
+
+                        Console.WriteLine("✅ Actualizado");
                         break;
+
                     case "13":
                         //if (objGestor.HayEstudiantes(estudiantes))
                         //    objGestor.ExportarEstudiantesAJson(estudiantes);

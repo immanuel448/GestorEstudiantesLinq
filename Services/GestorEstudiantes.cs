@@ -136,6 +136,13 @@ namespace GestorEstudiantesLinq.Services
             return estudiantes;
         }
 
+        public async Task ActualizarEstudianteAsync(Estudiante est)
+        {
+            await _repositorio.ActualizarAsync(est);
+        }
+
+
+
         // Verifica si la lista tiene estudiantes, se usa activamente en el Menú
         public bool HayEstudiantes(List<Estudiante> lista)
         {
