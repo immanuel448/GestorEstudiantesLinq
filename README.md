@@ -1,121 +1,109 @@
-# 🎓 Gestor de Estudiantes en C# (.NET)  
-**LINQ · Entity Framework Core · SQLite · JSON**
+# Gestor de Estudiantes en C# (.NET)
+LINQ · Entity Framework Core · SQLite · JSON · Arquitectura por capas
 
-Proyecto desarrollado en **C# (.NET)** que demuestra el uso práctico de **LINQ**, **Entity Framework Core** y **SQLite** para la gestión de datos, aplicando buenas prácticas de estructura, persistencia y validación de información.
+Proyecto desarrollado en **C# (.NET)** para la gestión de estudiantes desde consola, aplicando buenas prácticas de arquitectura, asincronía y separación de responsabilidades.
 
-El sistema permite administrar estudiantes desde una aplicación de consola, realizando consultas eficientes con LINQ y almacenando la información de forma persistente.
-
----
-
-## 🚀 Funcionalidades principales
-
-✅ Gestión de estudiantes mediante un menú interactivo en consola  
-✅ Consultas avanzadas utilizando LINQ  
-✅ Persistencia de datos con SQLite y Entity Framework Core  
-✅ Exportación e importación de datos en formato JSON  
-✅ Validaciones de entrada para evitar datos incorrectos  
-✅ Separación clara de responsabilidades en el código  
+El sistema permite realizar operaciones **CRUD reales** contra una base de datos SQLite, utilizando **Entity Framework Core** y consultas avanzadas con **LINQ**.
 
 ---
 
-## 📂 Estructura del proyecto
+## Funcionalidades principales
 
-```
-/GestorEstudiantesLinq/
-│
-├── Estudiante.cs            # Entidad principal del dominio
-├── AppDbContext.cs          # DbContext para EF Core + SQLite
-├── GestorEstudiantes.cs     # Lógica de negocio y consultas LINQ
-├── Program.cs               # Punto de entrada y menú interactivo
-└── estudiantes.db           # Base de datos SQLite (generada en runtime)
-```
-
----
-
-## 🛠️ Tecnologías usadas
-
-- [.NET 8.0](https://dotnet.microsoft.com/en-us/download)
-- C#
-- LINQ
-- Entity Framework Core
-- SQLite
-- JSON (System.Text.Json)
+- Menú interactivo en consola  
+- Alta, edición y eliminación de estudiantes (CRUD)  
+- Consultas con LINQ  
+- Persistencia real con SQLite  
+- Arquitectura por capas  
+- Repository Pattern  
+- Métodos asíncronos (async/await)  
+- Validaciones centralizadas con Helpers  
+- Exportación a JSON  
+- Código refactorizado y escalable  
 
 ---
 
-## 📌 Consultas LINQ implementadas
+## Arquitectura aplicada
 
-- Filtrado por carrera (`Where`)
-- Ordenamiento por edad (`OrderBy`, `OrderByDescending`)
-- Proyección de datos (`Select`)
-- Agrupación y conteo (`GroupBy`, `Count`)
-- Evaluación de condiciones (`Any`)
-- Obtención de registros específicos (`First`)
-- Cálculo de promedios (`Average`)
-- Proyección con objetos anónimos
-- Resúmenes personalizados de información
+Flujo real del sistema:
 
----
+Usuario  
+→ Helpers (validaciones)  
+→ Services (lógica de negocio)  
+→ Repository  
+→ Entity Framework Core  
+→ Base de datos SQLite  
 
-## 🔄 Funcionalidades adicionales
+Buenas prácticas:
 
-- Menú interactivo en consola
-- Validación de datos ingresados por el usuario
-- Exportación e importación de información a archivos JSON
-- Uso de migraciones para control de la base de datos
-- Manejo básico de excepciones en operaciones de archivo
-
----
-
-## 💾 Requisitos
-
-Asegúrate de tener instalado:
-
-```bash
-dotnet --version
-# Se recomienda .NET 8 o superior
-```
-
-Instala los paquetes necesarios:
-
-```bash
-dotnet add package Microsoft.EntityFrameworkCore
-dotnet add package Microsoft.EntityFrameworkCore.Sqlite
-dotnet add package Microsoft.EntityFrameworkCore.Tools
-```
+- Async / Await real  
+- Clean Code  
+- Separación por capas  
+- Repository Pattern  
+- Refactorización progresiva  
+- Código mantenible  
+- Arquitectura profesional  
 
 ---
 
-## ▶️ Ejecutar el proyecto
+## Tecnologías usadas
 
-Desde la terminal, en la carpeta raíz del proyecto:
+- .NET 8  
+- C#  
+- LINQ  
+- Entity Framework Core  
+- SQLite  
+- JSON  
+
+---
+
+## Ejecución
 
 ```bash
 dotnet run
+# Se recomienda .NET 8 o superior
 ```
 
 ---
 
-## 📈 Posibles extensiones futuras
+## Video del proyecto
 
-El proyecto sigue el principio de responsabilidad única:
-
-- Exposición de la lógica mediante una API REST
-- Interfaz gráfica (Web o Desktop)
-- Autenticación de usuarios
-- Persistencia en otros motores de base de datos
-
----
-
-## 📽️ Curso relacionado
-
-Este proyecto forma parte de una serie de videos en YouTube donde se explica cada paso desde cero.
+Este proyecto está basado en un video donde se explica la versión inicial:
 
 [Video resumido del Proyecto en Youtube](https://www.youtube.com/watch?v=1Q5n6XDp2uI&t=50s)
 
+
+> **Nota:**  
+> El video corresponde a una versión anterior del proyecto.  
+> La base conceptual sigue siendo válida (LINQ, EF Core, estructura),  
+> pero el proyecto fue mejorado posteriormente con:
+>
+> - Repository Pattern  
+> - Async / Await real  
+> - Helpers  
+> - Update / Delete  
+> - Refactorización  
+>
+> Esta versión es una **evolución profesional** del video.
+
 ---
 
-## ✅ Autor
+## Posibles extensiones
 
+- API REST  
+- Interfaz Web  
+- Autenticación  
+- DTOs  
+- AutoMapper  
+- Logging (Serilog)  
+- Paginación  
+- Tests unitarios  
+
+---
+
+## Autor
+
+**Immanuel**  
 Desarrollado por [immanuel448](https://github.com/immanuel448)
+
+
 
