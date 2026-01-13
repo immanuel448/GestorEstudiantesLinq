@@ -12,7 +12,8 @@ namespace GestorEstudiantesLinq
     class Program
     {
         // Instancia del gestor que contiene toda la lógica del sistema (cargar, guardar, consultas LINQ, etc.)
-        private static GestorEstudiantes objGestor;
+        private static GestorEstudiantes objGestor = new GestorEstudiantes();
+        private static List<Estudiante> estudiantes = new List<Estudiante>();
 
         static async Task Main(string[] args)
         {
@@ -21,10 +22,7 @@ namespace GestorEstudiantesLinq
 
         private static async Task MostrarMenuAsync()
         {
-            //la mayoría de lo métodos, junto con validaciones
-            objGestor = new GestorEstudiantes();
-
-            List<Estudiante> estudiantes = await objGestor.ObtenerEstudiantesAsync();
+            estudiantes = await objGestor.ObtenerEstudiantesAsync();
 
             while (true)
             {
@@ -93,58 +91,13 @@ namespace GestorEstudiantesLinq
                             objGestor.ExportarEstudiantesAJson(estudiantes);
                         break;
                     case "11":
-                        // Captura el último ID disponible para evitar duplicados
-                        int ultimoId = estudiantes.Any() ? estudiantes.Max(e => e.Id) : 0;
-
-                        // Leer estudiantes desde la consola (validadLeerEstudiantesDesdeConsola por consola)
-                        var nuevosEstudiantes = objGestor.LeerEstudiantesDesdeConsola(ultimoId);
-
-                        // Guarda los nuevos registros en la base de datos
-                        await objGestor.GuardarEstudiantesEnBDAsync(nuevosEstudiantes);
-                        // Actualizamos la lista de estudiantes
-                        estudiantes = await objGestor.ObtenerEstudiantesAsync();
+                        RegistrarEstudiantes();
                         break;
                     case "12":
-                        int idEdit = ConsoleHelper.LeerEnteroSeguro("ID a editar: ");
-
-                        var paraEditar =
-                            estudiantes.FirstOrDefault(e => e.Id == idEdit);
-
-                        // Validar si se encontró el estudiante
-                        if (paraEditar == null)
-                        {
-                            Console.WriteLine("No existe");
-                            break;
-                        }
-
-                        // Solicitar nuevos datos
-                        paraEditar.Nombre = ConsoleHelper.LeerTextoObligatorio("Nuevo nombre: ");
-
-                        paraEditar.Edad = ConsoleHelper.LeerEnteroSeguro("Nueva edad: ");
-
-                        paraEditar.Carrera = ConsoleHelper.LeerTextoObligatorio("Nueva carrera: ");
-
-                        // Actualizar en la base de datos
-                        await objGestor
-                            .ActualizarEstudianteAsync(paraEditar);
-
-                        // Actualizamos la lista de estudiantes
-                        estudiantes =
-                            await objGestor.ObtenerEstudiantesAsync();
-
-                        Console.WriteLine("✅ Actualizado");
+                        EditarEstudiante();
                         break;
                     case "13":
-                        int idDel = ConsoleHelper.LeerEnteroSeguro("ID a eliminar: ");
-
-                        // Validar si se encontró el estudiante
-                        await objGestor
-                            .EliminarEstudianteAsync(idDel);
-                        // Actualizamos la lista de estudiantes
-                        estudiantes =
-                            await objGestor.ObtenerEstudiantesAsync();
-
-                        Console.WriteLine("🗑 Eliminado");
+                        EliminarEstudiante();
                         break;
                     case "0":
                         Console.WriteLine("👋 Saliendo...");
@@ -160,6 +113,93 @@ namespace GestorEstudiantesLinq
                 Console.ReadKey();
             }
         }
+
+        private static async Task RegistrarEstudiantes()
+        {
+            // Captura el último ID disponible para evitar duplicados
+            int ultimoId = estudiantes.Any() ? estudiantes.Max(e => e.Id) : 0;
+
+            // Leer estudiantes desde la consola (validadLeerEstudiantesDesdeConsola por consola)
+            var nuevosEstudiantes = objGestor.LeerEstudiantesDesdeConsola(ultimoId);
+
+            // Guarda los nuevos registros en la base de datos
+            await objGestor.GuardarEstudiantesEnBDAsync(nuevosEstudiantes);
+            // Actualizamos la lista de estudiantes
+            estudiantes = await objGestor.ObtenerEstudiantesAsync();
+        }
+
+        private static async Task EditarEstudiante()
+        {
+            int idEdit = ConsoleHelper.LeerEnteroSeguro("ID a editar: ");
+
+            var paraEditar =
+                estudiantes.FirstOrDefault(e => e.Id == idEdit);
+
+            // Validar si se encontró el estudiante
+            if (paraEditar == null)
+            {
+                Console.WriteLine("No existe");
+                return;//origiannelmente era break eeeee
+            }
+
+            // Solicitar nuevos datos
+            paraEditar.Nombre = ConsoleHelper.LeerTextoObligatorio("Nuevo nombre: ");
+
+            paraEditar.Edad = ConsoleHelper.LeerEnteroSeguro("Nueva edad: ");
+
+            paraEditar.Carrera = ConsoleHelper.LeerTextoObligatorio("Nueva carrera: ");
+
+            // Actualizar en la base de datos
+            await objGestor
+                .ActualizarEstudianteAsync(paraEditar);
+
+            // Actualizamos la lista de estudiantes
+            estudiantes = await objGestor.ObtenerEstudiantesAsync();
+
+            Console.WriteLine("✅ Actualizado");
+        }
+
+        private static async Task EliminarEstudiante()
+        {
+            // 1️ Pedimos el ID de forma segura (sin errores)
+            int idDel =
+                ConsoleHelper.LeerEnteroSeguro("ID a eliminar: ");
+
+            // 2️ Buscamos en la lista cargada en memoria
+            var estudianteParaBorrar =
+                estudiantes.FirstOrDefault(e => e.Id == idDel);
+
+            // 3️ Si no existe, avisamos y salimos
+            if (estudianteParaBorrar == null)
+            {
+                Console.WriteLine("❌ No existe ese estudiante");
+                return; // salimos del método
+            }
+
+            // 4️ Mostramos QUÉ se va a borrar (UX)
+            Console.WriteLine(
+                $"Se eliminará: {estudianteParaBorrar.Nombre} ({estudianteParaBorrar.Carrera})");
+
+            // 5️ Pedimos confirmación al usuario
+            bool confirmar =
+                ConsoleHelper.LeerConfirmacion(
+                    "¿Seguro que desea eliminar? (s/n): ");
+
+            // 6️ Si dice NO → salimos sin borrar
+            if (!confirmar) return;
+
+            // 7️ Llamamos al gestor para borrar en BD
+            await objGestor
+                .EliminarEstudianteAsync(idDel);
+
+            // 8️ Recargamos la lista desde la BD
+            estudiantes =
+                await objGestor.ObtenerEstudiantesAsync();
+
+            // 9️ Mensaje final
+            Console.WriteLine("🗑 Eliminado");
+        }
+
     }
 
 }

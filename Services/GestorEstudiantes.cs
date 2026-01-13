@@ -104,8 +104,8 @@ public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
     }
 
 
-    // Actualiza un estudiante en la base de datos
-    public async Task ActualizarEstudianteAsync(Estudiante est)
+        // Actualiza un estudiante en la base de datos
+        public async Task ActualizarEstudianteAsync(Estudiante est)
         {
             await _repositorio.ActualizarAsync(est);
         }
