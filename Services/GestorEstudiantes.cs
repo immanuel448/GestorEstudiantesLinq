@@ -42,11 +42,11 @@ namespace GestorEstudiantesLinq.Services
                     await _repositorio.AgregarAsync(estudiante);
                 }
 
-                Console.WriteLine("✅ Estudiantes guardados correctamente en la base de datos.");
+                Console.WriteLine("Estudiantes guardados correctamente en la base de datos.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error al guardar en la base de datos: {ex.Message}");
+                Console.WriteLine($"Error al guardar en la base de datos: {ex.Message}");
             }
         }
 
@@ -61,11 +61,11 @@ namespace GestorEstudiantesLinq.Services
                 string json = JsonSerializer.Serialize(estudiantes, new JsonSerializerOptions { WriteIndented = true });
                 //escribir o crear y escribir en un archivo
                 File.WriteAllText(ruta, json);
-                Console.WriteLine($"✅ Estudiantes exportados correctamente en '{ruta}'");
+                Console.WriteLine($"Estudiantes exportados correctamente en '{ruta}'");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"❌ Error al guardar: {ex.Message}");
+                Console.WriteLine($"Error al guardar: {ex.Message}");
             }
         }
 
@@ -120,7 +120,7 @@ public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
         // 1. Where: filtra por carrera
         public void Where_Linq(List<Estudiante> estudiantes)
         {
-            Console.Write("🔍 Ingrese la carrera a filtrar: ");
+            Console.Write("Ingrese la carrera a filtrar: ");
             string carrera = Console.ReadLine()?.Trim();
 
             var resultado = estudiantes
@@ -129,13 +129,13 @@ public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
 
             if (resultado.Any())
             {
-                Console.WriteLine($"\n🎓 Estudiantes de la carrera '{carrera}':");
+                Console.WriteLine($"\nEstudiantes de la carrera '{carrera}':");
                 foreach (var e in resultado)
                     Console.WriteLine($"- {e.Nombre} ({e.Edad} años)");
             }
             else
             {
-                Console.WriteLine($"❌ No se encontraron estudiantes de la carrera '{carrera}'");
+                Console.WriteLine($"No se encontraron estudiantes de la carrera '{carrera}'");
             }
         }
         
@@ -200,18 +200,18 @@ public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
         // 5. Any: verificar si hay estudiantes mayores de cierta edad
         public void Any_Linq(List<Estudiante> estudiantes)
         {
-            Console.Write("\n🔍 Ingrese la edad mínima a buscar: ");
+            Console.Write("\nIngrese la edad mínima a buscar: ");
             if (int.TryParse(Console.ReadLine(), out int edadMinima))
             {
                 bool hay = estudiantes.Any(e => e.Edad > edadMinima);
                 string mensaje = hay
-                    ? $"✅ Sí existe al menos un estudiante mayor de {edadMinima} años."
-                    : $"❌ No hay estudiantes mayores de {edadMinima} años.";
+                    ? $"Sí existe al menos un estudiante mayor de {edadMinima} años."
+                    : $"No hay estudiantes mayores de {edadMinima} años.";
                 Console.WriteLine(mensaje);
             }
             else
             {
-                Console.WriteLine("❌ Edad inválida.");
+                Console.WriteLine("Edad inválida.");
             }
         }
 
@@ -225,7 +225,7 @@ public List<Estudiante> LeerEstudiantesDesdeConsola(int ultimoId)
             }
             else
             {
-                Console.WriteLine("⚠️ No hay estudiantes cargados.");
+                Console.WriteLine("No hay estudiantes cargados.");
             }
         }
 

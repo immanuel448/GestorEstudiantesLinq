@@ -28,7 +28,7 @@ namespace GestorEstudiantesLinq
             {
                 //esto es el menú, si no se selecciona nada el switch va a repetir el menú
                 Console.Clear();
-                Console.WriteLine("📋 MENÚ PRINCIPAL - CONSULTAS LINQ");
+                Console.WriteLine("MENÚ PRINCIPAL - CONSULTAS LINQ");
                 Console.WriteLine("1. Filtrar por carrera");
                 Console.WriteLine("2. Ordenar por edad");
                 Console.WriteLine("3. Mostrar nombres de estudiantes");
@@ -100,11 +100,11 @@ namespace GestorEstudiantesLinq
                         EliminarEstudiante();
                         break;
                     case "0":
-                        Console.WriteLine("👋 Saliendo...");
+                        Console.WriteLine("Saliendo...");
                         //termina el método Main -------------
                         return;
                     default:
-                        Console.WriteLine("❌ Opción no válida. Intente de nuevo.");
+                        Console.WriteLine("Opción no válida. Intente de nuevo.");
                         //repite el menú
                         break;
                 }
@@ -156,7 +156,7 @@ namespace GestorEstudiantesLinq
             // Actualizamos la lista de estudiantes
             estudiantes = await objGestor.ObtenerEstudiantesAsync();
 
-            Console.WriteLine("✅ Actualizado");
+            Console.WriteLine("Actualizado");
         }
 
         private static async Task EliminarEstudiante()
@@ -172,32 +172,27 @@ namespace GestorEstudiantesLinq
             // 3️ Si no existe, avisamos y salimos
             if (estudianteParaBorrar == null)
             {
-                Console.WriteLine("❌ No existe ese estudiante");
+                Console.WriteLine("No existe ese estudiante");
                 return; // salimos del método
             }
 
             // 4️ Mostramos QUÉ se va a borrar (UX)
-            Console.WriteLine(
-                $"Se eliminará: {estudianteParaBorrar.Nombre} ({estudianteParaBorrar.Carrera})");
+            Console.WriteLine($"Se eliminará: {estudianteParaBorrar.Nombre} ({estudianteParaBorrar.Carrera})");
 
             // 5️ Pedimos confirmación al usuario
-            bool confirmar =
-                ConsoleHelper.LeerConfirmacion(
-                    "¿Seguro que desea eliminar? (s/n): ");
+            bool confirmar = ConsoleHelper.LeerConfirmacion("¿Seguro que desea eliminar? (s/n): ");
 
             // 6️ Si dice NO → salimos sin borrar
             if (!confirmar) return;
 
             // 7️ Llamamos al gestor para borrar en BD
-            await objGestor
-                .EliminarEstudianteAsync(idDel);
+            await objGestor.EliminarEstudianteAsync(idDel);
 
             // 8️ Recargamos la lista desde la BD
-            estudiantes =
-                await objGestor.ObtenerEstudiantesAsync();
+            estudiantes = await objGestor.ObtenerEstudiantesAsync();
 
             // 9️ Mensaje final
-            Console.WriteLine("🗑 Eliminado");
+            Console.WriteLine("Eliminado");
         }
 
     }

@@ -18,7 +18,7 @@ namespace GestorEstudiantesLinq.Helpers
                 if (int.TryParse(Console.ReadLine(), out valor))
                     return valor;
 
-                Console.WriteLine("❌ Ingrese un número válido");
+                Console.WriteLine("Error, ingrese un número válido");
             }
         }
 
@@ -31,7 +31,7 @@ namespace GestorEstudiantesLinq.Helpers
                 valor = Console.ReadLine()?.Trim();
 
                 if (string.IsNullOrWhiteSpace(valor))
-                    Console.WriteLine("❌ No puede estar vacío");
+                    Console.WriteLine("Error, no puede estar vacío");
 
             } while (string.IsNullOrWhiteSpace(valor));
 
@@ -49,7 +49,7 @@ namespace GestorEstudiantesLinq.Helpers
                 if (int.TryParse(Console.ReadLine(), out valor) && valor >= min)
                     return valor;
 
-                Console.WriteLine($"❌ Ingrese un número >= {min}");
+                Console.WriteLine($"Error, ingrese un número >= {min}");
             }
         }
 
@@ -66,7 +66,7 @@ namespace GestorEstudiantesLinq.Helpers
                 if (!string.IsNullOrWhiteSpace(texto))
                     return texto;
 
-                Console.WriteLine("❌ No puede estar vacío");
+                Console.WriteLine("Error, no puede estar vacío");
             }
         }
 
@@ -89,7 +89,7 @@ namespace GestorEstudiantesLinq.Helpers
         {
             if (!lista.Any())
             {
-                Console.WriteLine("⚠️ No hay registros cargados.");
+                Console.WriteLine("No hay registros cargados.");
                 return false;
             }
             return true;
