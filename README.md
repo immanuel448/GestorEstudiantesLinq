@@ -102,7 +102,7 @@ Este proyecto está basado en un video donde se explica la versión inicial:
 
 ## Autor
 
-**Immanuel**  
+**Lucero Emmanuel**  
 Desarrollado por [immanuel448](https://github.com/immanuel448)
 
 
